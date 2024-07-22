@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop/constants.dart';
 import 'package:shop/route/screen_export.dart';
+import 'package:shop/screens/admin/views/list_category.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
 
 class ManagerEntryPoint extends StatefulWidget {
@@ -14,7 +15,8 @@ class ManagerEntryPoint extends StatefulWidget {
 
 class _ManagerEntryPointState extends State<ManagerEntryPoint> {
   final List _pages = const [
-    ManagerProduct()
+    ManagerProduct(),
+    CategoryListScreen(),
   ];
   int _currentIndex = 0;
 
