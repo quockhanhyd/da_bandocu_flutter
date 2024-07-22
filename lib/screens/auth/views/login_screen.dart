@@ -60,8 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         Navigator.pushNamedAndRemoveUntil(
                             context,
-                            entryPointScreenRoute,
-                            // managerEntryPointScreenRoute,
+                            // entryPointScreenRoute,
+                            managerEntryPointScreenRoute,
                             ModalRoute.withName(logInScreenRoute));
                       }
                     },
