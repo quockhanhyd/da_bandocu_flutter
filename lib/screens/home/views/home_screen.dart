@@ -31,8 +31,8 @@ class HomeScreen extends StatelessWidget {
                   // While loading use 👇
                   // const BannerMSkelton(),‚
                   BannerSStyle1(
-                    title: "New \narrival",
-                    subtitle: "SPECIAL OFFER",
+                    title: "Mới \ncập bến",
+                    subtitle: "Ưu đãi đặc biệt",
                     discountParcent: 50,
                     press: () {
                       Navigator.pushNamed(context, onSaleScreenRoute);
@@ -45,27 +45,6 @@ class HomeScreen extends StatelessWidget {
             ),
             const SliverToBoxAdapter(child: BestSellers()),
             const SliverToBoxAdapter(child: MostPopular()),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const SizedBox(height: defaultPadding * 1.5),
-
-                  const SizedBox(height: defaultPadding / 4),
-                  // While loading use 👇
-                  // const BannerSSkelton(),
-                  BannerSStyle5(
-                    title: "Black \nfriday",
-                    subtitle: "50% Off",
-                    bottomText: "Collection".toUpperCase(),
-                    press: () {
-                      Navigator.pushNamed(context, onSaleScreenRoute);
-                    },
-                  ),
-                  const SizedBox(height: defaultPadding / 4),
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(child: BestSellers()),
           ],
         ),
       ),
