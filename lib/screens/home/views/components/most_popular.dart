@@ -5,6 +5,55 @@ import 'package:shop/models/product_model.dart';
 import '../../../../constants.dart';
 import '../../../../route/route_constants.dart';
 
+List<ProductModel> demoPopularProducts = [
+  ProductModel(
+    image: productDemoImg1,
+    title: "Mountain Warehouse for Women",
+    brandName: "Lipsy london",
+    price: 540,
+    priceAfetDiscount: 420,
+    dicountpercent: 20,
+  ),
+  ProductModel(
+    image: productDemoImg4,
+    title: "Mountain Beta Warehouse",
+    brandName: "Lipsy london",
+    price: 800,
+  ),
+  ProductModel(
+    image: productDemoImg5,
+    title: "FS - Nike Air Max 270 Really React",
+    brandName: "Lipsy london",
+    price: 650.62,
+    priceAfetDiscount: 390.36,
+    dicountpercent: 40,
+  ),
+  ProductModel(
+    image: productDemoImg6,
+    title: "Green Poplin Ruched Front",
+    brandName: "Lipsy london",
+    price: 1264,
+    priceAfetDiscount: 1200.8,
+    dicountpercent: 5,
+  ),
+  ProductModel(
+    image: "https://i.imgur.com/tXyOMMG.png",
+    title: "Green Poplin Ruched Front",
+    brandName: "Lipsy london",
+    price: 650.62,
+    priceAfetDiscount: 390.36,
+    dicountpercent: 40,
+  ),
+  ProductModel(
+    image: "https://i.imgur.com/h2LqppX.png",
+    title: "white satin corset top",
+    brandName: "Lipsy london",
+    price: 1264,
+    priceAfetDiscount: 1200.8,
+    dicountpercent: 5,
+  ),
+];
+
 class MostPopular extends StatelessWidget {
   const MostPopular({
     super.key,

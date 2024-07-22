@@ -63,7 +63,7 @@ class CategoryModel {
 }
 
 List<CategoryModel> demoCategories = [
-  CategoryModel(name: "All Categories"),
+  CategoryModel(name: "Tất cả"),
   CategoryModel(
       name: "On Sale",
       svgSrc: "assets/icons/Sale.svg",
@@ -77,7 +77,7 @@ List<CategoryModel> demoCategories = [
 
 List<CategoryModel> fetchCategories() {
   return [
-    CategoryModel(name: "All Categories"),
+    CategoryModel(name: "Tất cả"),
     CategoryModel(
         name: "Khánh Test",
         svgSrc: "assets/icons/Sale.svg",

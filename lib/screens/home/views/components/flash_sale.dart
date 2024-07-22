@@ -6,6 +6,33 @@ import '../../../../components/product/product_card.dart';
 import '../../../../constants.dart';
 import '../../../../models/product_model.dart';
 
+List<ProductModel> demoFlashSaleProducts = [
+  ProductModel(
+    image: productDemoImg5,
+    title: "FS - Nike Air Max 270 Really React",
+    brandName: "Lipsy london",
+    price: 650.62,
+    priceAfetDiscount: 390.36,
+    dicountpercent: 40,
+  ),
+  ProductModel(
+    image: productDemoImg6,
+    title: "Green Poplin Ruched Front",
+    brandName: "Lipsy london",
+    price: 1264,
+    priceAfetDiscount: 1200.8,
+    dicountpercent: 5,
+  ),
+  ProductModel(
+    image: productDemoImg4,
+    title: "Mountain Beta Warehouse",
+    brandName: "Lipsy london",
+    price: 800,
+    priceAfetDiscount: 680,
+    dicountpercent: 15,
+  ),
+];
+
 class FlashSale extends StatelessWidget {
   const FlashSale({
     super.key,
@@ -20,14 +47,14 @@ class FlashSale extends StatelessWidget {
         // const BannerMWithCounterSkelton(),
         BannerMWithCounter(
           duration: const Duration(hours: 8),
-          text: "Super Flash Sale \n50% Off",
+          text: "Siêu khuyển mãi \n50%",
           press: () {},
         ),
         const SizedBox(height: defaultPadding / 2),
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Text(
-            "Flash sale",
+            "Siêu khuyến mãi",
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
