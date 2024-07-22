@@ -5,6 +5,9 @@ import 'package:shop/screens/admin/views/components/product_form.dart';
 import 'package:shop/screens/admin/views/manager_add_product.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
 
+import '../screens/admin/views/add_category_form.dart';
+import '../screens/admin/views/category_detail.dart';
+import '../screens/admin/views/list_category.dart';
 import 'screen_export.dart';
 
 // Yuo will get 50+ screens and more once you have the full template
@@ -311,6 +314,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const ManagerAddProduct(),
       );
+    case managerCategory:
+      return MaterialPageRoute(
+        builder: (context) => const CategoryListScreen(),
+      );
+    case addProductRoute:
+      return MaterialPageRoute(
+        builder: (context) => const AddCategoryScreen(),
+      );
+    case categoryDetail:
+      return MaterialPageRoute(
+          builder: (context) => const CategoryDetailScreen(),
+          settings: settings);
     default:
       return MaterialPageRoute(
         // Make a screen for undefine
