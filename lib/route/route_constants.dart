@@ -60,6 +60,6 @@ const String thanksForOrderScreenRoute = "thanks_order";
 const String managerEntryPointScreenRoute = "manager_entry_point";
 const String managerAddProductRoute = "manager_product";
 const String managerCategory = "manager_category";
-const String addProductRoute = "add_category";
+const String addCategoryRoute = "add_category";
 const String categoryDetail = "detail_category";
 
