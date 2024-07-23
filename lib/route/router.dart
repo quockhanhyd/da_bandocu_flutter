@@ -318,14 +318,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const CategoryListScreen(),
       );
-    case addProductRoute:
+    case addCategoryRoute:
       return MaterialPageRoute(
         builder: (context) => const AddCategoryScreen(),
       );
     case categoryDetail:
+// Lấy dữ liệu từ arguments
+      final category = settings.arguments as Map<String, dynamic>;
+
       return MaterialPageRoute(
-          builder: (context) => const CategoryDetailScreen(),
-          settings: settings);
+        builder: (context) => CategoryDetailScreen(category: category),
+        settings: settings,
+      );
     default:
       return MaterialPageRoute(
         // Make a screen for undefine
