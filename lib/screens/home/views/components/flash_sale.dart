@@ -9,7 +9,7 @@ import '../../../../models/product_model.dart';
 List<ProductModel> demoFlashSaleProducts = [
   ProductModel(
     image: productDemoImg5,
-    title: "FS - Nike Air Max 270 Really React",
+    productName: "FS - Nike Air Max 270 Really React",
     brandName: "Lipsy london",
     price: 650,
     priceAfetDiscount: 390,
@@ -17,7 +17,7 @@ List<ProductModel> demoFlashSaleProducts = [
   ),
   ProductModel(
     image: productDemoImg6,
-    title: "Green Poplin Ruched Front",
+    productName: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 1264,
     priceAfetDiscount: 1200,
@@ -25,7 +25,7 @@ List<ProductModel> demoFlashSaleProducts = [
   ),
   ProductModel(
     image: productDemoImg4,
-    title: "Mountain Beta Warehouse",
+    productName: "Mountain Beta Warehouse",
     brandName: "Lipsy london",
     price: 800,
     priceAfetDiscount: 680,
@@ -76,7 +76,7 @@ class FlashSale extends StatelessWidget {
               child: ProductCard(
                 image: demoFlashSaleProducts[index].image,
                 brandName: demoFlashSaleProducts[index].brandName,
-                title: demoFlashSaleProducts[index].title,
+                title: demoFlashSaleProducts[index].productName,
                 price: demoFlashSaleProducts[index].price,
                 priceAfetDiscount:
                     demoFlashSaleProducts[index].priceAfetDiscount,

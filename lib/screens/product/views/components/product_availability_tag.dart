@@ -21,7 +21,7 @@ class ProductAvailabilityTag extends StatelessWidget {
         ),
       ),
       child: Text(
-        isAvailable ? "Available in stock" : "Currently unavailable",
+        isAvailable ? "Còn hàng" : "Hết hàng",
         style: Theme.of(context)
             .textTheme
             .labelSmall!

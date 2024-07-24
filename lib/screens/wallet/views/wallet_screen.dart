@@ -48,7 +48,7 @@ class WalletScreen extends StatelessWidget {
                       products: [
                         ProductModel(
                           image: productDemoImg1,
-                          title: "Mountain Warehouse for Women",
+                          productName: "Mountain Warehouse for Women",
                           brandName: "Lipsy london",
                           price: 540,
                           priceAfetDiscount: 420,
@@ -56,7 +56,7 @@ class WalletScreen extends StatelessWidget {
                         ),
                         ProductModel(
                           image: productDemoImg4,
-                          title: "Mountain Beta Warehouse",
+                          productName: "Mountain Beta Warehouse",
                           brandName: "Lipsy london",
                           price: 800,
                         ),

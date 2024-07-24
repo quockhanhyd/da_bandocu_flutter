@@ -9,7 +9,7 @@ import '../../../../constants.dart';
 List<ProductModel> demoPopularProducts = [
   ProductModel(
     image: productDemoImg1,
-    title: "Mountain Warehouse for Women",
+    productName: "Mountain Warehouse for Women",
     brandName: "Lipsy london",
     price: 540,
     priceAfetDiscount: 420,
@@ -17,13 +17,13 @@ List<ProductModel> demoPopularProducts = [
   ),
   ProductModel(
     image: productDemoImg4,
-    title: "Mountain Beta Warehouse",
+    productName: "Mountain Beta Warehouse",
     brandName: "Lipsy london",
     price: 800,
   ),
   ProductModel(
     image: productDemoImg5,
-    title: "FS - Nike Air Max 270 Really React",
+    productName: "FS - Nike Air Max 270 Really React",
     brandName: "Lipsy london",
     price: 650,
     priceAfetDiscount: 390,
@@ -31,7 +31,7 @@ List<ProductModel> demoPopularProducts = [
   ),
   ProductModel(
     image: productDemoImg6,
-    title: "Green Poplin Ruched Front",
+    productName: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 1264,
     priceAfetDiscount: 1200,
@@ -39,7 +39,7 @@ List<ProductModel> demoPopularProducts = [
   ),
   ProductModel(
     image: "https://i.imgur.com/tXyOMMG.png",
-    title: "Green Poplin Ruched Front",
+    productName: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 650,
     priceAfetDiscount: 390,
@@ -47,7 +47,7 @@ List<ProductModel> demoPopularProducts = [
   ),
   ProductModel(
     image: "https://i.imgur.com/h2LqppX.png",
-    title: "white satin corset top",
+    productName: "white satin corset top",
     brandName: "Lipsy london",
     price: 1264,
     priceAfetDiscount: 1200,

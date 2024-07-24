@@ -41,7 +41,7 @@ class BestSellers extends StatelessWidget {
               child: ProductCard(
                 image: demoBestSellersProducts[index].image,
                 brandName: demoBestSellersProducts[index].brandName,
-                title: demoBestSellersProducts[index].title,
+                title: demoBestSellersProducts[index].productName,
                 price: demoBestSellersProducts[index].price,
                 priceAfetDiscount:
                     demoBestSellersProducts[index].priceAfetDiscount,

@@ -1,25 +1,58 @@
 // For demo only
 import 'package:shop/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Future<ProductModel> fetchAlbum() async {
+  final response = await http
+      .get(Uri.parse('https://192.168.0.101:44328/api/Product/GetOne'));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return ProductModel.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
 
 class ProductModel {
-  final String image, brandName, title;
-  final int price;
+  final int? productID;
+  final String? image, brandName, productName;
+  final int? price;
   final int? priceAfetDiscount;
   final int? dicountpercent;
 
   ProductModel({
-    required this.image,
-    required this.brandName,
-    required this.title,
-    required this.price,
+    this.productID,
+    this.image,
+    this.brandName,
+    this.productName,
+    this.price,
     this.priceAfetDiscount,
     this.dicountpercent,
   });
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'productID': int productID,
+        'productName': String productName,
+      } =>
+        ProductModel(
+          productID: productID,
+          productName: productName,
+        ),
+      _ => throw const FormatException('Failed to load album.'),
+    };
+  }
 }
 List<ProductModel> demoBestSellersProducts = [
   ProductModel(
     image: "https://i.imgur.com/tXyOMMG.png",
-    title: "Green Poplin Ruched Front",
+    productName: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 650,
     priceAfetDiscount: 390,
@@ -27,7 +60,7 @@ List<ProductModel> demoBestSellersProducts = [
   ),
   ProductModel(
     image: "https://i.imgur.com/h2LqppX.png",
-    title: "white satin corset top",
+    productName: "white satin corset top",
     brandName: "Lipsy london",
     price: 1264,
     priceAfetDiscount: 1200,
@@ -35,7 +68,7 @@ List<ProductModel> demoBestSellersProducts = [
   ),
   ProductModel(
     image: productDemoImg4,
-    title: "Mountain Beta Warehouse",
+    productName: "Mountain Beta Warehouse",
     brandName: "Lipsy london",
     price: 800,
     priceAfetDiscount: 680,
@@ -45,7 +78,7 @@ List<ProductModel> demoBestSellersProducts = [
 List<ProductModel> kidsProducts = [
   ProductModel(
     image: "https://i.imgur.com/dbbT6PA.png",
-    title: "Green Poplin Ruched Front",
+    productName: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 650,
     priceAfetDiscount: 590,
@@ -53,19 +86,19 @@ List<ProductModel> kidsProducts = [
   ),
   ProductModel(
     image: "https://i.imgur.com/7fSxC7k.png",
-    title: "Printed Sleeveless Tiered Swing Dress",
+    productName: "Printed Sleeveless Tiered Swing Dress",
     brandName: "Lipsy london",
     price: 650,
   ),
   ProductModel(
     image: "https://i.imgur.com/pXnYE9Q.png",
-    title: "Ruffle-Sleeve Ponte-Knit Sheath ",
+    productName: "Ruffle-Sleeve Ponte-Knit Sheath ",
     brandName: "Lipsy london",
     price: 400,
   ),
   ProductModel(
     image: "https://i.imgur.com/V1MXgfa.png",
-    title: "Green Mountain Beta Warehouse",
+    productName: "Green Mountain Beta Warehouse",
     brandName: "Lipsy london",
     price: 400,
     priceAfetDiscount: 360,
@@ -73,13 +106,13 @@ List<ProductModel> kidsProducts = [
   ),
   ProductModel(
     image: "https://i.imgur.com/8gvE5Ss.png",
-    title: "Printed Sleeveless Tiered Swing Dress",
+    productName: "Printed Sleeveless Tiered Swing Dress",
     brandName: "Lipsy london",
     price: 654,
   ),
   ProductModel(
     image: "https://i.imgur.com/cBvB5YB.png",
-    title: "Mountain Beta Warehouse",
+    productName: "Mountain Beta Warehouse",
     brandName: "Lipsy london",
     price: 250,
   ),

@@ -15,8 +15,8 @@ class SecondaryProductCard extends StatelessWidget {
     this.press,
     this.style,
   });
-  final String image, brandName, title;
-  final int price;
+  final String? image, brandName, title;
+  final int? price;
   final int? priceAfetDiscount;
   final int? dicountpercent;
   final VoidCallback? press;
@@ -38,7 +38,7 @@ class SecondaryProductCard extends StatelessWidget {
             aspectRatio: 1.15,
             child: Stack(
               children: [
-                NetworkImageWithLoader(image, radius: defaultBorderRadious),
+                NetworkImageWithLoader(image??"", radius: defaultBorderRadious),
                 if (dicountpercent != null)
                   Positioned(
                     right: defaultPadding / 2,
@@ -72,7 +72,7 @@ class SecondaryProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    brandName.toUpperCase(),
+                    (brandName??"").toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -80,7 +80,7 @@ class SecondaryProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: defaultPadding / 2),
                   Text(
-                    title,
+                    title??"",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
