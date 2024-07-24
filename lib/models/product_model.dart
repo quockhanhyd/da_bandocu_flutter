@@ -3,8 +3,8 @@ import 'package:shop/constants.dart';
 
 class ProductModel {
   final String image, brandName, title;
-  final double price;
-  final double? priceAfetDiscount;
+  final int price;
+  final int? priceAfetDiscount;
   final int? dicountpercent;
 
   ProductModel({
@@ -21,8 +21,8 @@ List<ProductModel> demoBestSellersProducts = [
     image: "https://i.imgur.com/tXyOMMG.png",
     title: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
-    price: 650.62,
-    priceAfetDiscount: 390.36,
+    price: 650,
+    priceAfetDiscount: 390,
     dicountpercent: 40,
   ),
   ProductModel(
@@ -30,7 +30,7 @@ List<ProductModel> demoBestSellersProducts = [
     title: "white satin corset top",
     brandName: "Lipsy london",
     price: 1264,
-    priceAfetDiscount: 1200.8,
+    priceAfetDiscount: 1200,
     dicountpercent: 5,
   ),
   ProductModel(
@@ -47,15 +47,15 @@ List<ProductModel> kidsProducts = [
     image: "https://i.imgur.com/dbbT6PA.png",
     title: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
-    price: 650.62,
-    priceAfetDiscount: 590.36,
+    price: 650,
+    priceAfetDiscount: 590,
     dicountpercent: 24,
   ),
   ProductModel(
     image: "https://i.imgur.com/7fSxC7k.png",
     title: "Printed Sleeveless Tiered Swing Dress",
     brandName: "Lipsy london",
-    price: 650.62,
+    price: 650,
   ),
   ProductModel(
     image: "https://i.imgur.com/pXnYE9Q.png",

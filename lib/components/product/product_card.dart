@@ -15,8 +15,8 @@ class ProductCard extends StatelessWidget {
     required this.press,
   });
   final String image, brandName, title;
-  final double price;
-  final double? priceAfetDiscount;
+  final int price;
+  final int? priceAfetDiscount;
   final int? dicountpercent;
   final VoidCallback press;
 

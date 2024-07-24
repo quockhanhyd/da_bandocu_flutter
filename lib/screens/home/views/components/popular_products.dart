@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/components/product/product_card.dart';
 import 'package:shop/models/product_model.dart';
 import 'package:shop/route/screen_export.dart';
+import 'package:shop/service/views/home_service.dart';
 
 import '../../../../constants.dart';
 
@@ -24,8 +25,8 @@ List<ProductModel> demoPopularProducts = [
     image: productDemoImg5,
     title: "FS - Nike Air Max 270 Really React",
     brandName: "Lipsy london",
-    price: 650.62,
-    priceAfetDiscount: 390.36,
+    price: 650,
+    priceAfetDiscount: 390,
     dicountpercent: 40,
   ),
   ProductModel(
@@ -33,15 +34,15 @@ List<ProductModel> demoPopularProducts = [
     title: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 1264,
-    priceAfetDiscount: 1200.8,
+    priceAfetDiscount: 1200,
     dicountpercent: 5,
   ),
   ProductModel(
     image: "https://i.imgur.com/tXyOMMG.png",
     title: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
-    price: 650.62,
-    priceAfetDiscount: 390.36,
+    price: 650,
+    priceAfetDiscount: 390,
     dicountpercent: 40,
   ),
   ProductModel(
@@ -49,7 +50,7 @@ List<ProductModel> demoPopularProducts = [
     title: "white satin corset top",
     brandName: "Lipsy london",
     price: 1264,
-    priceAfetDiscount: 1200.8,
+    priceAfetDiscount: 1200,
     dicountpercent: 5,
   ),
 ];
@@ -61,6 +62,9 @@ class PopularProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final param = {"currentPage": 1, "pageSize": 20, "textSearch": ""};
+    late Future<List<Map<Object, dynamic>>> _popularProducts = HomeService().getListHome(param);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -76,31 +80,45 @@ class PopularProducts extends StatelessWidget {
         // const ProductsSkelton(),
         SizedBox(
           height: 220,
-          child: ListView.builder(
+          child: FutureBuilder<List<Map<Object, dynamic>>>(
+        future: _popularProducts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No home found'));
+          } else {
+            final popularProducts = snapshot.data!;
+            return ListView.builder(
             scrollDirection: Axis.horizontal,
             // Find demoPopularProducts on models/ProductModel.dart
-            itemCount: demoPopularProducts.length,
+            itemCount: popularProducts.length,
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.only(
                 left: defaultPadding,
-                right: index == demoPopularProducts.length - 1
+                right: index == popularProducts.length - 1
                     ? defaultPadding
                     : 0,
               ),
               child: ProductCard(
-                image: demoPopularProducts[index].image,
-                brandName: demoPopularProducts[index].brandName,
-                title: demoPopularProducts[index].title,
-                price: demoPopularProducts[index].price,
-                priceAfetDiscount: demoPopularProducts[index].priceAfetDiscount,
-                dicountpercent: demoPopularProducts[index].dicountpercent,
+                image: popularProducts[index]["image"],
+                brandName: popularProducts[index]["brandName"],
+                title: popularProducts[index]["title"],
+                price: popularProducts[index]["price"],
+                priceAfetDiscount: popularProducts[index]["priceAfetDiscount"],
+                dicountpercent: popularProducts[index]["dicountpercent"],
                 press: () {
                   Navigator.pushNamed(context, productDetailsScreenRoute,
-                      arguments: index.isEven);
+                      arguments: popularProducts[index]["productId"]);
                 },
               ),
             ),
-          ),
+          );
+          }
+        },
+      ),
         )
       ],
     );

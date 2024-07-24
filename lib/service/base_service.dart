@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 class BaseService {
-  final String baseUrl = 'https://192.168.0.107:7156/api/';
+  final String baseUrl = 'http://192.168.0.101:5000/api/';
   final IOClient client;
 
   BaseService({http.Client? client})
@@ -44,6 +44,23 @@ class BaseService {
 
     return response;
   }
+
+  Future<http.Response> getListCommonAsync(String endpoint, String router, Object data) async {
+    final response = await client.post(
+      Uri.parse('$baseUrl$endpoint$router'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      log('response: $response');
+    }
+
+    return response;
+  }
+
 
   Future<http.Response> delete(String endpoint, String paramId) async {
     final response = await client.delete(

@@ -4,12 +4,12 @@ import '/components/network_image_with_loader.dart';
 import '../../../../constants.dart';
 
 class ProductImages extends StatefulWidget {
-  const ProductImages({
+  ProductImages({
     super.key,
     required this.images,
   });
 
-  final List<String> images;
+  late List<String> images;
 
   @override
   State<ProductImages> createState() => _ProductImagesState();

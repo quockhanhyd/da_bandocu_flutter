@@ -8,6 +8,7 @@ import 'package:shop/constants.dart';
 import 'package:shop/screens/product/views/product_returns_screen.dart';
 
 import 'package:shop/route/screen_export.dart';
+import 'package:shop/service/views/home_service.dart';
 
 import 'components/notify_me_card.dart';
 import 'components/product_images.dart';
@@ -17,15 +18,16 @@ import '../../../components/review_card.dart';
 import 'product_buy_now_screen.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key, this.isProductAvailable = true});
+  const ProductDetailsScreen({super.key, this.productId = 0});
 
-  final bool isProductAvailable;
+  final int productId;
 
   @override
   Widget build(BuildContext context) {
+    Future<Map<Object, dynamic>> _productDetail = HomeService().getDetail("$productId");
+
     return Scaffold(
-      bottomNavigationBar: isProductAvailable
-          ? CartButton(
+      bottomNavigationBar: CartButton(
               price: 140,
               press: () {
                 customModalBottomSheet(
@@ -34,16 +36,22 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: const ProductBuyNowScreen(),
                 );
               },
-            )
-          :
-
-          /// If profuct is not available then show [NotifyMeCard]
-          NotifyMeCard(
-              isNotify: false,
-              onChanged: (value) {},
             ),
-      body: SafeArea(
-        child: CustomScrollView(
+      body: 
+      SafeArea(
+        child: FutureBuilder<Map<Object, dynamic>>(
+        future: _productDetail,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No home found'));
+          } else {
+            final productDetail = snapshot.data!;
+            String listImages = productDetail["imageUrl"];
+            return CustomScrollView(
           slivers: [
             SliverAppBar(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -56,52 +64,26 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const ProductImages(
-              images: [productDemoImg1, productDemoImg2, productDemoImg3],
+            ProductImages(
+              images: (productDetail["imageUrl"] as String).split(","), //[productDemoImg1, productDemoImg2, productDemoImg3],
             ),
             ProductInfo(
-              brand: "LIPSY LONDON",
-              title: "Sleeveless Ruffle",
-              isAvailable: isProductAvailable,
-              description:
-                  "1A cool gray cap in soft corduroy. Watch me.' By buying cotton products from Lindex, you’re supporting more responsibly...",
+              brand: "SECONDHAND",
+              title: productDetail["productName"],
+              isAvailable: productDetail["totalAmount"] > 0,
+              description: productDetail["description"],
               rating: 4.4,
               numOfReviews: 126,
             ),
             ProductListTile(
               svgSrc: "assets/icons/Product.svg",
-              title: "Product Details",
+              title: "Chi tiết sản phẩm",
               press: () {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
                   child: const BuyFullKit(
                       images: ["assets/screens/Product detail.png"]),
-                );
-              },
-            ),
-            ProductListTile(
-              svgSrc: "assets/icons/Delivery.svg",
-              title: "Shipping Information",
-              press: () {
-                customModalBottomSheet(
-                  context,
-                  height: MediaQuery.of(context).size.height * 0.92,
-                  child: const BuyFullKit(
-                    images: ["assets/screens/Shipping information.png"],
-                  ),
-                );
-              },
-            ),
-            ProductListTile(
-              svgSrc: "assets/icons/Return.svg",
-              title: "Returns",
-              isShowBottomBorder: true,
-              press: () {
-                customModalBottomSheet(
-                  context,
-                  height: MediaQuery.of(context).size.height * 0.92,
-                  child: const ProductReturnsScreen(),
                 );
               },
             ),
@@ -121,7 +103,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             ProductListTile(
               svgSrc: "assets/icons/Chat.svg",
-              title: "Reviews",
+              title: "Đánh giá",
               isShowBottomBorder: true,
               press: () {
                 Navigator.pushNamed(context, productReviewsScreenRoute);
@@ -131,7 +113,7 @@ class ProductDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(defaultPadding),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  "You may also like",
+                  "Sản phẩm tương tự",
                   style: Theme.of(context).textTheme.titleSmall!,
                 ),
               ),
@@ -150,8 +132,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       image: productDemoImg2,
                       title: "Sleeveless Tiered Dobby Swing Dress",
                       brandName: "LIPSY LONDON",
-                      price: 24.65,
-                      priceAfetDiscount: index.isEven ? 20.99 : null,
+                      price: 24,
+                      priceAfetDiscount: index.isEven ? 20 : null,
                       dicountpercent: index.isEven ? 25 : null,
                       press: () {},
                     ),
@@ -163,7 +145,10 @@ class ProductDetailsScreen extends StatelessWidget {
               child: SizedBox(height: defaultPadding),
             )
           ],
-        ),
+        );
+            }
+        },
+      ),
       ),
     );
   }

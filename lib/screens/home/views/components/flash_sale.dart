@@ -11,8 +11,8 @@ List<ProductModel> demoFlashSaleProducts = [
     image: productDemoImg5,
     title: "FS - Nike Air Max 270 Really React",
     brandName: "Lipsy london",
-    price: 650.62,
-    priceAfetDiscount: 390.36,
+    price: 650,
+    priceAfetDiscount: 390,
     dicountpercent: 40,
   ),
   ProductModel(
@@ -20,7 +20,7 @@ List<ProductModel> demoFlashSaleProducts = [
     title: "Green Poplin Ruched Front",
     brandName: "Lipsy london",
     price: 1264,
-    priceAfetDiscount: 1200.8,
+    priceAfetDiscount: 1200,
     dicountpercent: 5,
   ),
   ProductModel(
