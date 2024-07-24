@@ -84,3 +84,66 @@ List<ProductModel> kidsProducts = [
     price: 250,
   ),
 ];
+
+
+class ProductModel2 {
+  final int productID;
+  final String productName;
+  final int totalAmount;
+  final int totalSold;
+  final int vote;
+  final int price;
+  final int priceSale;
+  final int percentSale;
+  final String description;
+  final String imageUrl;
+  final int categoryID;
+  final String categoryName;
+  ProductModel2({
+    required this.productID,
+    required this.productName,
+    required this.totalAmount,
+    required this.totalSold,
+    required this.vote,
+    required this.price,
+    required this.priceSale,
+    required this.percentSale,
+    required this.description,
+    required this.imageUrl,
+    required this.categoryID,
+    required this.categoryName,
+  });
+
+  factory ProductModel2.fromJson(Map<String, dynamic> json) {
+    return ProductModel2(
+      productID: json['productID'],
+      productName: json['productName'],
+      totalAmount: json['totalAmount'],
+      totalSold: json['totalSold'],
+      vote: json['vote'],
+      price: json['price'],
+      priceSale: json['priceSale'],
+      percentSale: json['percentSale'],
+      description: json['description'],
+      imageUrl: json['imageUrl'],
+      categoryID: json['categoryID'],
+      categoryName: json['categoryName'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productID': productID,
+      'productName': productName,
+      'totalAmount': totalAmount,
+      'totalSold': totalSold,
+      'vote': vote,
+      'price': price,
+      'priceSale': priceSale,
+      'percentSale': percentSale,
+      'description': description,
+      'imageUrl': imageUrl,
+      'categoryID': categoryID,
+    };
+  }
+}

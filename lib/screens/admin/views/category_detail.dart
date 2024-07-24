@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:shop/models/category_model.dart';
 import '../../../service/admin/category_service.dart';
 
 class CategoryDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> category;
+  final CategoryModel2 category;
 
   // Nhận dữ liệu từ Navigator
   CategoryDetailScreen({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController(text: category['categoryName']);
-    final TextEditingController descriptionController = TextEditingController(text: category['description']);
+    final TextEditingController nameController = TextEditingController(text: category.categoryName);
+    final TextEditingController descriptionController = TextEditingController(text: category.description);
     final CategoryService categoryService = CategoryService();
 
     return Scaffold(
@@ -20,7 +21,7 @@ class CategoryDetailScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.delete, color: Colors.red),
             onPressed: () async {
-              final categoryId = category['categoryID'];
+              final categoryId = category.categoryID;
 
               try {
                 final res = await categoryService.deleteCategory(categoryId);
@@ -59,7 +60,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 final String description = descriptionController.text;
 
                 final updatedData = {
-                  "categoryID": category['categoryID'],
+                  "categoryID": category.categoryID,
                   "categoryName": name,
                   "description": description,
                 };
