@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import '../../models/category_model.dart';
+import '../../models/product_model.dart';
 import '../base_service.dart';
 
-class CategoryService extends BaseService {
-  CategoryService() : super();
-  static String urlName = 'Category';
-  Future<bool> insertOrUpdateCategoryAsync(Object data) async {
+class ProductService extends BaseService {
+  ProductService() : super();
+  static String urlName = 'Product';
+  Future<bool> insertOrUpdateProductAsync(Object data) async {
     final response = await insertOrUpdateAsync(urlName, data);
 
     if (response.statusCode == 200) {
@@ -18,7 +18,7 @@ class CategoryService extends BaseService {
     return false;
   }
 
-  Future<List<CategoryModel2>> getCategories(Object data) async {
+  Future<List<ProductModel2>> getProducts(Object data) async {
     final response = await getListAsync(urlName, data);
 
     if (response.statusCode == 200) {
@@ -26,15 +26,15 @@ class CategoryService extends BaseService {
       final List<dynamic> dataList = responseData['data']['data'];
 
       // Chuyển đổi danh sách JSON thành danh sách các đối tượng ProductModel2
-      return dataList.map((item) => CategoryModel2.fromJson(item as Map<String, dynamic>)).toList();
+      return dataList.map((item) => ProductModel2.fromJson(item as Map<String, dynamic>)).toList();
     } else {
       log('Error: ${response.statusCode} ${response.reasonPhrase}');
-      throw Exception('Failed to load categories');
+      throw Exception('Failed to load products');
     }
   }
 
-  Future<bool> deleteCategory(int categoryID) async {
-    var param = 'CategoryID=$categoryID';
+  Future<bool> deleteProduct(int productId) async {
+    var param = 'ProductID=$productId';
     final response = await delete(urlName, param);
 
     if (response.statusCode == 200) {

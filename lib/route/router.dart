@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop/entry_point.dart';
 import 'package:shop/manager_entry_point.dart';
+import 'package:shop/models/category_model.dart';
+import 'package:shop/models/product_model.dart';
 import 'package:shop/screens/admin/views/components/product_form.dart';
 import 'package:shop/screens/admin/views/manager_add_product.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
@@ -8,6 +10,7 @@ import 'package:shop/screens/admin/views/manager_product.dart';
 import '../screens/admin/views/add_category_form.dart';
 import '../screens/admin/views/category_detail.dart';
 import '../screens/admin/views/list_category.dart';
+import '../screens/admin/views/product_detail.dart';
 import 'screen_export.dart';
 
 // Yuo will get 50+ screens and more once you have the full template
@@ -312,7 +315,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case managerAddProductRoute:
       return MaterialPageRoute(
-        builder: (context) => const ManagerAddProduct(),
+        builder: (context) => ManagerAddProduct(),
       );
     case managerCategory:
       return MaterialPageRoute(
@@ -324,10 +327,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case categoryDetail:
 // Lấy dữ liệu từ arguments
-      final category = settings.arguments as Map<String, dynamic>;
+      final category = settings.arguments as CategoryModel2;
 
       return MaterialPageRoute(
         builder: (context) => CategoryDetailScreen(category: category),
+        settings: settings,
+      );
+    case productDetail:
+// Lấy dữ liệu từ arguments
+      final product = settings.arguments as ProductModel2;
+
+      return MaterialPageRoute(
+        builder: (context) => ProductDetailAdminScreen(product: product),
         settings: settings,
       );
     default:
