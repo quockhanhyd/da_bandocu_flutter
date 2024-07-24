@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/models/category_model.dart';
 import '../../../route/route_constants.dart';
 import 'components/category_item.dart';
 import '../../../service/admin/category_service.dart';
@@ -11,7 +12,7 @@ class CategoryListScreen extends StatefulWidget {
 }
 
 class _CategoryListScreenState extends State<CategoryListScreen> {
-  late Future<List<Map<Object, dynamic>>> _categories;
+  late Future<List<CategoryModel2>> _categories;
   final param = {"currentPage": 1, "pageSize": 20, "textSearch": ""};
 
   @override
@@ -44,7 +45,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Map<Object, dynamic>>>(
+      body: FutureBuilder<List<CategoryModel2>>(
         future: _categories,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -52,7 +53,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No categories found'));
+            return Center(child: Text('Không có danh mục nào'));
           } else {
             final categories = snapshot.data!;
             return ListView.builder(
@@ -60,10 +61,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return CategoryItem(
-                  categoryID: category['categoryID'] ?? 0,
-                  categoryName: category['categoryName'] ?? '',
-                  productCount: category['productCount'] ?? 0,
-                  description: category['description'] ?? '',
+                  categoryID: category.categoryID ?? 0,
+                  categoryName: category.categoryName ?? '',
+                  productCount: category.productCount ?? 0,
+                  description: category.description ?? '',
                   onTap: () async {
                     final result = await Navigator.pushNamed(
                       context,

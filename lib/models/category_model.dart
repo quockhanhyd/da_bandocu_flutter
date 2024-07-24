@@ -57,3 +57,27 @@ final List<CategoryModel> demoCategories = [
     ],
   ),
 ];
+
+
+class CategoryModel2 {
+  final int categoryID;
+  final String? categoryName;
+  final String? description;
+  final int productCount;
+
+  CategoryModel2({
+    required this.categoryID,
+    this.categoryName,
+    this.description,
+    required this.productCount
+  });
+
+  factory CategoryModel2.fromJson(Map<String, dynamic> json) {
+    return CategoryModel2(
+      categoryID: json['categoryID'],
+      categoryName: json['categoryName'],
+      description: json['description'],
+      productCount: json['productCount'],
+    );
+  }
+}

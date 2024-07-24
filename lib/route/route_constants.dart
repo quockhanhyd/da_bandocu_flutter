@@ -62,4 +62,5 @@ const String managerAddProductRoute = "manager_product";
 const String managerCategory = "manager_category";
 const String addCategoryRoute = "add_category";
 const String categoryDetail = "detail_category";
+const String productDetail = "product_detail";
 
