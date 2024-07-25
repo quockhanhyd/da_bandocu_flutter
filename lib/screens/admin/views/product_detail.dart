@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shop/models/category_model.dart'; // Thay thế bằng đường dẫn chính xác của bạn
+import 'package:shop/models/category_model.dart';
 import 'package:shop/service/admin/category_service.dart';
 import 'package:shop/service/admin/product_service.dart';
 
@@ -31,6 +31,8 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
   List<CategoryModel2> _categories = [];
   bool _isLoading = true;
 
+  List<String> _imageUrls = [];
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,8 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
         TextEditingController(text: widget.product.description);
     _imageUrlController = TextEditingController(text: widget.product.imageUrl);
     _selectedCategoryID = widget.product.categoryID;
+
+    _imageUrls = (_imageUrlController.text).split(',').map((url) => url.trim()).toList();
 
     _fetchCategories();
   }
@@ -86,7 +90,6 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
         _image = File(pickedFile.path);
       });
 
-      // Thực hiện công việc bất đồng bộ sau khi cập nhật trạng thái
       await _uploadImage();
     } else {
       print('No image selected.');
@@ -114,12 +117,12 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
-        print('Response: $responseBody');
         final decodedResponse = jsonDecode(responseBody);
-        final imageUrl = decodedResponse['data']; // Nhận URL từ phản hồi
+        final imageUrl = decodedResponse['data'];
 
         setState(() {
-          _imageUrlController.text = imageUrl;
+          _imageUrls.add(imageUrl);
+          _imageUrlController.text = _imageUrls.join(',');
         });
       } else {
         print('Image upload failed with status: ${response.statusCode}');
@@ -136,6 +139,13 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
     final double percentSale =
         double.tryParse(_percentSaleController.text) ?? 0.0;
     return price - (percentSale / 100 * price);
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _imageUrls.removeAt(index);
+      _imageUrlController.text = _imageUrls.join(', ');
+    });
   }
 
   @override
@@ -169,112 +179,135 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView(
-                children: [
-                  TextField(
-                    controller: _productNameController,
-                    decoration: InputDecoration(labelText: 'Tên sản phẩm'),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _totalAmountController,
-                    decoration:
-                        InputDecoration(labelText: 'Số lượng trong kho'),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _priceController,
-                    decoration: InputDecoration(labelText: 'Giá bán'),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _percentSaleController,
-                    decoration:
-                        InputDecoration(labelText: 'Phần trăm giảm giá'),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Giá sau khi giảm: ${(_calculateDiscountedPrice()).toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _descriptionController,
-                    decoration: InputDecoration(labelText: 'Mô tả'),
-                  ),
-                  SizedBox(height: 10),
-                  DropdownButtonFormField<int>(
-                    value: _selectedCategoryID,
-                    items: _categories.map((category) {
-                      return DropdownMenuItem<int>(
-                        value: category.categoryID,
-                        child: Text(category.categoryName ?? ''),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategoryID = value;
-                      });
-                    },
-                    decoration: InputDecoration(labelText: 'Danh mục'),
-                  ),
-                  SizedBox(height: 10),
-                  if (_imageUrlController.text.isNotEmpty)
-                    Center(
-                      child: Image.network(
-                        _imageUrlController.text,
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.broken_image,
-                              size: 50, color: Colors.grey);
-                        },
-                      ),
-                    ),
-                  ElevatedButton(
-                    onPressed: _pickImage,
-                    child: Text('Chọn ảnh mới'),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final product = {
-                        "productID": widget.product.productID,
-                        'productName': _productNameController.text,
-                        'totalAmount': int.parse(_totalAmountController.text),
-                        'price': int.parse(_priceController.text),
-                        'percentSale': int.parse(_percentSaleController.text),
-                        'description': _descriptionController.text,
-                        'imageUrl': _imageUrlController.text,
-                        'categoryID': _selectedCategoryID,
-                      };
-
-                      try {
-                        final productService = ProductService();
-                        final success = await productService
-                            .insertOrUpdateProductAsync(product);
-                        if (success) {
-                          Navigator.pop(context, 'updated');
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Cập nhật sản phẩm thất bại!')),
-                          );
-                        }
-                      } catch (e) {
-                        print('Failed to update product: $e');
-                      }
-                    },
-                    child: Text('Cập nhật sản phẩm'),
-                  ),
-                ],
-              ),
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            TextField(
+              controller: _productNameController,
+              decoration: InputDecoration(labelText: 'Tên sản phẩm'),
             ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _totalAmountController,
+              decoration:
+              InputDecoration(labelText: 'Số lượng trong kho'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _priceController,
+              decoration: InputDecoration(labelText: 'Giá bán'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _percentSaleController,
+              decoration:
+              InputDecoration(labelText: 'Phần trăm giảm giá'),
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Giá sau khi giảm: ${(_calculateDiscountedPrice()).toStringAsFixed(2)}',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(labelText: 'Mô tả'),
+            ),
+            SizedBox(height: 10),
+            DropdownButtonFormField<int>(
+              value: _selectedCategoryID,
+              items: _categories.map((category) {
+                return DropdownMenuItem<int>(
+                  value: category.categoryID,
+                  child: Text(category.categoryName ?? ''),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedCategoryID = value;
+                });
+              },
+              decoration: InputDecoration(labelText: 'Danh mục'),
+            ),
+            SizedBox(height: 10),
+            _imageUrls.isNotEmpty
+                ? Container(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _imageUrls.length,
+                itemBuilder: (context, index) {
+                  return Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          _imageUrls[index],
+                          width: 150,
+                          height: 150,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.broken_image,
+                                size: 50, color: Colors.grey);
+                          },
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red),
+                          onPressed: () => _removeImage(index),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+                : Center(child: Text('No images available')),
+            ElevatedButton(
+              onPressed: _pickImage,
+              child: Text('Chọn ảnh mới'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                final product = {
+                  "productID": widget.product.productID,
+                  'productName': _productNameController.text,
+                  'totalAmount': int.parse(_totalAmountController.text),
+                  'price': int.parse(_priceController.text),
+                  'percentSale': int.parse(_percentSaleController.text),
+                  'description': _descriptionController.text,
+                  'imageUrl': _imageUrlController.text,
+                  'categoryID': _selectedCategoryID,
+                };
+
+                try {
+                  final productService = ProductService();
+                  final success = await productService
+                      .insertOrUpdateProductAsync(product);
+                  if (success) {
+                    Navigator.pop(context, 'updated');
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Cập nhật sản phẩm thất bại!')),
+                    );
+                  }
+                } catch (e) {
+                  print('Failed to update product: $e');
+                }
+              },
+              child: Text('Cập nhật sản phẩm'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
