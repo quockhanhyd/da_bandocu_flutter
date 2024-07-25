@@ -134,7 +134,8 @@ class _ManagerAddProductState extends State<ManagerAddProduct> {
           "productID": 0,
           'productName': _productNameController.text,
           'totalAmount': int.parse(_totalAmountController.text),
-          'price': int.parse(_priceController.text),
+          'price': double.parse(_priceController.text),
+          'priceSale': double.parse(_calculateDiscountedPrice().toString()),
           'percentSale': int.parse(_percentSaleController.text),
           'description': _descriptionController.text,
           'imageUrl': _imageUrlController.text,
@@ -154,6 +155,14 @@ class _ManagerAddProductState extends State<ManagerAddProduct> {
       }
     }
   }
+
+  double _calculateDiscountedPrice() {
+    final double price = double.tryParse(_priceController.text) ?? 0.0;
+    final double percentSale =
+        double.tryParse(_percentSaleController.text) ?? 0.0;
+    return price - (percentSale / 100 * price);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +225,8 @@ class _ManagerAddProductState extends State<ManagerAddProduct> {
                   if (value == null || value.isEmpty) {
                     return 'Vui lòng nhập phần trăm giảm giá';
                   }
-                  if (int.tryParse(value) == null) {
+                  int value2= int.tryParse(value) ?? 0;
+                  if (int.tryParse(value) == null || value2 < 0 || value2 > 100) {
                     return 'Vui lòng nhập số hợp lệ';
                   }
                   return null;

@@ -5,6 +5,8 @@ import 'package:shop/constants.dart';
 import 'package:shop/route/screen_export.dart';
 import 'package:shop/screens/admin/views/list_category.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
+import 'package:shop/screens/admin/views/ordermanagerment/order_managerment.dart';
+
 
 class ManagerEntryPoint extends StatefulWidget {
   const ManagerEntryPoint({super.key});
@@ -17,6 +19,7 @@ class _ManagerEntryPointState extends State<ManagerEntryPoint> {
   final List _pages = const [
     ManagerProduct(),
     CategoryListScreen(),
+    OrderManagementScreen(),
   ];
   int _currentIndex = 0;
 

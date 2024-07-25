@@ -13,7 +13,7 @@ final ioClient = IOClient(createHttpClient());
 
 class ProductItem extends StatelessWidget {
   final String productName;
-  final int productPrice;
+  final double productPrice;
   final List<String> productImages; // List of image URLs
   final String productCategory;
   final int percentSale;
