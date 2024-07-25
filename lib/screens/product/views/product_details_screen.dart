@@ -27,16 +27,31 @@ class ProductDetailsScreen extends StatelessWidget {
     Future<Map<Object, dynamic>> _productDetail = HomeService().getDetail("$productId");
 
     return Scaffold(
-      bottomNavigationBar: CartButton(
-              price: 140,
+      bottomNavigationBar: FutureBuilder<Map<Object, dynamic>>(
+        future: _productDetail,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No home found'));
+          } else {
+            final productDetail = snapshot.data!;
+            String listImages = productDetail["imageUrl"];
+            return CartButton(
+              price: productDetail["priceSale"],
               press: () {
                 customModalBottomSheet(
                   context,
                   height: MediaQuery.of(context).size.height * 0.92,
-                  child: const ProductBuyNowScreen(),
+                  child: ProductBuyNowScreen(productDetail: productDetail),
                 );
               },
-            ),
+            );
+          }
+        }
+      ),
       body: 
       SafeArea(
         child: FutureBuilder<Map<Object, dynamic>>(

@@ -79,13 +79,13 @@ List<CategoryModel> fetchCategories() {
   return [
     CategoryModel(name: "Tất cả"),
     CategoryModel(
-        name: "Khánh Test",
+        name: "Sản phẩm khuyến mãi",
         svgSrc: "assets/icons/Sale.svg",
         route: onSaleScreenRoute),
-    CategoryModel(name: "Man's", svgSrc: "assets/icons/Man.svg"),
-    CategoryModel(name: "Woman’s", svgSrc: "assets/icons/Woman.svg"),
+    CategoryModel(name: "Thời trang nam", svgSrc: "assets/icons/Man.svg"),
+    CategoryModel(name: "Thời trang nữ", svgSrc: "assets/icons/Woman.svg"),
     CategoryModel(
-        name: "Kids", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
+        name: "Trẻ nhỏ", svgSrc: "assets/icons/Child.svg", route: kidsScreenRoute),
   ];
 }
 

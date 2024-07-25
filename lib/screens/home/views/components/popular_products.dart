@@ -105,7 +105,7 @@ class PopularProducts extends StatelessWidget {
               child: ProductCard(
                 image: popularProducts[index]["image"],
                 brandName: popularProducts[index]["brandName"],
-                title: popularProducts[index]["title"],
+                title: popularProducts[index]["productName"],
                 price: popularProducts[index]["price"],
                 priceAfetDiscount: popularProducts[index]["priceAfetDiscount"],
                 dicountpercent: popularProducts[index]["dicountpercent"],

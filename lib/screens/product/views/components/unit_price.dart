@@ -9,8 +9,8 @@ class UnitPrice extends StatelessWidget {
     this.priceAfterDiscount,
   });
 
-  final double price;
-  final double? priceAfterDiscount;
+  final int price;
+  final int? priceAfterDiscount;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class UnitPrice extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Unit price",
+          "Giá bán",
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: defaultPadding / 1),

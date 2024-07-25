@@ -43,6 +43,13 @@ flutter:
     - assets/screens/
 
   fonts:
+    - family: SVN Gilroy
+      fonts:
+        - asset: assets/fonts/svn/SVN-Gilroy Regular.otf
+        - asset: assets/fonts/svn/SVN-Gilroy Medium.otf
+          weight: 500
+        - asset: assets/fonts/svn/SVN-Gilroy Heavy.otf
+          weight: 700
     - family: Plus Jakarta
       fonts:
         - asset: assets/fonts/plus_jakarta/PlusJakartaDisplay-Regular.otf

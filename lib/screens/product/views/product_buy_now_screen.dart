@@ -15,20 +15,24 @@ import 'components/selected_size.dart';
 import 'components/unit_price.dart';
 
 class ProductBuyNowScreen extends StatefulWidget {
-  const ProductBuyNowScreen({super.key});
+  final Map<Object, dynamic>? productDetail;
+  const ProductBuyNowScreen({super.key, required this.productDetail });
 
   @override
-  _ProductBuyNowScreenState createState() => _ProductBuyNowScreenState();
+  _ProductBuyNowScreenState createState() => _ProductBuyNowScreenState(productDetail);
 }
 
 class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
+  final Map<Object, dynamic>? productDetail;
+  _ProductBuyNowScreenState(this.productDetail);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CartButton(
-        price: 269.4,
-        title: "Add to cart",
-        subTitle: "Total price",
+        price: productDetail?["priceSale"]??0,
+        title: "Thêm vào giỏ hàng",
+        subTitle: "Tổng tiền",
         press: () {
           customModalBottomSheet(
             context,
@@ -47,7 +51,7 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
               children: [
                 const BackButton(),
                 Text(
-                  "Sleeveless Ruffle",
+                  productDetail?["productName"]??"",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 IconButton(
@@ -61,12 +65,12 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
           Expanded(
             child: CustomScrollView(
               slivers: [
-                const SliverToBoxAdapter(
+                SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                     child: AspectRatio(
                       aspectRatio: 1.05,
-                      child: NetworkImageWithLoader(productDemoImg1),
+                      child: NetworkImageWithLoader((productDetail?["imageUrl"]??"").split(",")[0]),
                     ),
                   ),
                 ),
@@ -76,14 +80,14 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: UnitPrice(
-                            price: 145,
-                            priceAfterDiscount: 134.7,
+                            price: productDetail?["price"]??0,
+                            priceAfterDiscount: productDetail?["priceSale"]??0,
                           ),
                         ),
                         ProductQuantity(
-                          numOfItem: 2,
+                          numOfItem: 1,
                           onIncrement: () {},
                           onDecrement: () {},
                         ),
@@ -115,7 +119,7 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(vertical: defaultPadding),
                   sliver: ProductListTile(
-                    title: "Size guide",
+                    title: "Tra cứu kích thước",
                     svgSrc: "assets/icons/Sizeguid.svg",
                     isShowBottomBorder: true,
                     press: () {
@@ -127,29 +131,29 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                     },
                   ),
                 ),
-                SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: defaultPadding),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: defaultPadding / 2),
-                        Text(
-                          "Store pickup availability",
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const SizedBox(height: defaultPadding / 2),
-                        const Text(
-                            "Select a size to check store availability and In-Store pickup options.")
-                      ],
-                    ),
-                  ),
-                ),
+                // SliverPadding(
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: defaultPadding),
+                //   sliver: SliverToBoxAdapter(
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         const SizedBox(height: defaultPadding / 2),
+                //         Text(
+                //           "Store pickup availability",
+                //           style: Theme.of(context).textTheme.titleSmall,
+                //         ),
+                //         const SizedBox(height: defaultPadding / 2),
+                //         const Text(
+                //             "Select a size to check store availability and In-Store pickup options.")
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(vertical: defaultPadding),
                   sliver: ProductListTile(
-                    title: "Check stores",
+                    title: "Tới cửa hàng",
                     svgSrc: "assets/icons/Stores.svg",
                     isShowBottomBorder: true,
                     press: () {

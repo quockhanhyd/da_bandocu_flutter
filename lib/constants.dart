@@ -11,7 +11,7 @@ const productDemoImg6 = "https://i.imgur.com/JfyZlnO.png";
 
 // End For demo
 
-const grandisExtendedFont = "Grandis Extended";
+const grandisExtendedFont = "SVN Gilroy";
 
 // On color 80, 60.... those means opacity
 
