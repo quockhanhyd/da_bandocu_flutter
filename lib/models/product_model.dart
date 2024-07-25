@@ -125,8 +125,8 @@ class ProductModel2 {
   final int totalAmount;
   final int totalSold;
   final int vote;
-  final int price;
-  final int priceSale;
+  final double price;
+  final double priceSale;
   final int percentSale;
   final String description;
   final String imageUrl;
@@ -154,9 +154,9 @@ class ProductModel2 {
       totalAmount: json['totalAmount'],
       totalSold: json['totalSold'],
       vote: json['vote'],
-      price: json['price'],
-      priceSale: json['priceSale'],
-      percentSale: json['percentSale'],
+      price: (json['price'] as num).toDouble(), // Chuyển đổi int hoặc double thành double
+      priceSale: (json['priceSale'] as num).toDouble(), // Chuyển đổi int hoặc double thành double
+      percentSale: json['percentSale'], // Chuyển đổi int hoặc double thành double
       description: json['description'],
       imageUrl: json['imageUrl'],
       categoryID: json['categoryID'],
