@@ -60,10 +60,13 @@ class _ManagerProductState extends State<ManagerProduct> {
               itemCount: products.length,
               itemBuilder: (context, index) {
                 final product = products[index];
+                final List<String> productImages = product.imageUrl != null
+                    ? product.imageUrl!.split(',')
+                    : [];
                 return ProductItem(
                   productName: product.productName ?? '',
                   productPrice: product.price ?? 0,
-                  productImage: product.imageUrl ?? '',
+                  productImages: productImages ?? [],
                   productCategory: product.categoryName ?? '',
                   percentSale: product.percentSale ?? 0,
                   description: product.description ?? '',

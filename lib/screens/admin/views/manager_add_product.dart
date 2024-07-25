@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/io_client.dart';
 import 'package:shop/models/category_model.dart';
 import 'package:shop/service/admin/category_service.dart';
@@ -18,19 +17,16 @@ HttpClient createHttpClient() {
 
 class ManagerAddProduct extends StatefulWidget {
   @override
-  _AddProductFormState createState() => _AddProductFormState();
+  _ManagerAddProductState createState() => _ManagerAddProductState();
 }
 
-class _AddProductFormState extends State<ManagerAddProduct> {
+class _ManagerAddProductState extends State<ManagerAddProduct> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _productNameController = TextEditingController();
-  final TextEditingController _slugController = TextEditingController();
   final TextEditingController _totalAmountController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _percentSaleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _descriptionHtmlController =
-      TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
   final TextEditingController _categoryIDController = TextEditingController();
 
@@ -38,6 +34,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
   final picker = ImagePicker();
   List<CategoryModel2> _categories = []; // Danh sách các danh mục
   int? _selectedCategoryID;
+  List<String> _imageUrls = [];
 
   @override
   void initState() {
@@ -48,7 +45,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
   void _fetchCategories() async {
     final param = {"currentPage": 1, "pageSize": 1000, "textSearch": ""};
     final res = await CategoryService().getCategories(param);
-    if (res.length > 0) {
+    if (res.isNotEmpty) {
       setState(() {
         _categories = res;
       });
@@ -58,12 +55,10 @@ class _AddProductFormState extends State<ManagerAddProduct> {
   @override
   void dispose() {
     _productNameController.dispose();
-    _slugController.dispose();
     _totalAmountController.dispose();
     _priceController.dispose();
     _percentSaleController.dispose();
     _descriptionController.dispose();
-    _descriptionHtmlController.dispose();
     _imageUrlController.dispose();
     _categoryIDController.dispose();
     super.dispose();
@@ -110,7 +105,8 @@ class _AddProductFormState extends State<ManagerAddProduct> {
         final imageUrl = decodedResponse['data']; // Nhận URL từ phản hồi
 
         setState(() {
-          _imageUrlController.text = imageUrl;
+          _imageUrls.add(imageUrl);
+          _imageUrlController.text = _imageUrls.join(', ');
         });
       } else {
         print('Image upload failed with status: ${response.statusCode}');
@@ -122,25 +118,30 @@ class _AddProductFormState extends State<ManagerAddProduct> {
     }
   }
 
+  void _removeImage(int index) {
+    setState(() {
+      _imageUrls.removeAt(index);
+      _imageUrlController.text = _imageUrls.join(',');
+    });
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      if (_imageUrlController.text.isNotEmpty) {
+      if (_imageUrls.isNotEmpty) {
         // Xử lý khi form hợp lệ
         // Bạn có thể gọi API hoặc làm bất cứ gì bạn muốn với dữ liệu
         final newProduct = {
           "productID": 0,
           'productName': _productNameController.text,
-          'slug': _slugController.text,
           'totalAmount': int.parse(_totalAmountController.text),
           'price': int.parse(_priceController.text),
           'percentSale': int.parse(_percentSaleController.text),
           'description': _descriptionController.text,
-          'descriptionHtml': _descriptionHtmlController.text,
           'imageUrl': _imageUrlController.text,
           'categoryID': _selectedCategoryID,
         };
         final success =
-            await ProductService().insertOrUpdateProductAsync(newProduct);
+        await ProductService().insertOrUpdateProductAsync(newProduct);
         if (success) {
           Navigator.pop(context, 'add');
         } else {
@@ -149,7 +150,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
           );
         }
       } else {
-        print('Image URL is empty');
+        print('Image URLs are empty');
       }
     }
   }
@@ -176,16 +177,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _slugController,
-                decoration: InputDecoration(labelText: 'Đường dẫn (Slug)'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập đường dẫn';
-                  }
-                  return null;
-                },
-              ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _totalAmountController,
                 decoration: InputDecoration(labelText: 'Số lượng trong kho'),
@@ -200,6 +192,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _priceController,
                 decoration: InputDecoration(labelText: 'Giá bán'),
@@ -214,6 +207,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _percentSaleController,
                 decoration: InputDecoration(labelText: 'Phần trăm giảm giá'),
@@ -228,6 +222,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                   return null;
                 },
               ),
+              SizedBox(height: 10),
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Mô tả'),
@@ -238,16 +233,7 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _descriptionHtmlController,
-                decoration: InputDecoration(labelText: 'Mô tả dài (HTML)'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập mô tả dài';
-                  }
-                  return null;
-                },
-              ),
+              SizedBox(height: 10),
               DropdownButtonFormField<int>(
                 value: _selectedCategoryID,
                 decoration: InputDecoration(labelText: 'Danh mục'),
@@ -270,18 +256,34 @@ class _AddProductFormState extends State<ManagerAddProduct> {
                 },
               ),
               SizedBox(height: 10.0),
-              TextFormField(
-                controller: _imageUrlController,
-                decoration: InputDecoration(labelText: 'URL ảnh'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập URL ảnh';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 10.0),
-              _image == null ? Text('No image selected.') : Image.file(_image!),
+              _imageUrls.isNotEmpty
+                  ? Container(
+                height: 100.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _imageUrls.length,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Image.network(
+                          _imageUrls[index],
+                          width: 100.0,
+                          height: 100.0,
+                          fit: BoxFit.cover,
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () => _removeImage(index),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
+                  : Text('No images selected.'),
               SizedBox(height: 10.0),
               ElevatedButton(
                 onPressed: _pickImage,
