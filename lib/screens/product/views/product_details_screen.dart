@@ -86,7 +86,7 @@ class ProductDetailsScreen extends StatelessWidget {
               brand: "SECONDHAND",
               title: productDetail["productName"],
               isAvailable: productDetail["totalAmount"] > 0,
-              description: productDetail["description"],
+              description: productDetail["description"]??"",
               rating: 4.4,
               numOfReviews: 126,
             ),
