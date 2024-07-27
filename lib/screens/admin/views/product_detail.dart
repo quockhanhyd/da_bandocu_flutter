@@ -206,11 +206,11 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
               InputDecoration(labelText: 'Phần trăm giảm giá'),
               keyboardType: TextInputType.number,
             ),
-            SizedBox(height: 10),
-            Text(
-              'Giá sau khi giảm: ${(_calculateDiscountedPrice()).toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
+            // SizedBox(height: 10),
+            // Text(
+            //   'Giá sau khi giảm: ${(_calculateDiscountedPrice()).toStringAsFixed(2)}',
+            //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // ),
             SizedBox(height: 10),
             TextField(
               controller: _descriptionController,
