@@ -8,6 +8,7 @@ import 'package:shop/models/category_model.dart';
 import 'package:shop/service/admin/category_service.dart';
 import 'package:shop/service/admin/product_service.dart';
 
+import '../../../constants.dart';
 import '../../../models/product_model.dart';
 import 'components/ProductItem.dart';
 
@@ -107,7 +108,7 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://192.168.0.107:7156/api/Upload/upload'),
+        Uri.parse('$apiUrl/Upload/upload'),
       );
 
       request.files
@@ -164,6 +165,9 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
                 final success = await productService.deleteProduct(productId);
                 if (success) {
                   Navigator.pop(context, 'deleted');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Xóa sản phẩm thành công!')),
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Xóa thất bại!')),
@@ -280,9 +284,9 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
                   "productID": widget.product.productID,
                   'productName': _productNameController.text,
                   'totalAmount': int.parse(_totalAmountController.text),
-                  'price': double.parse(_priceController.text),
-                  'priceSale': double.parse(_calculateDiscountedPrice().toString()),
-                  'percentSale': int.parse(_percentSaleController.text),
+                  'price': int.parse(_priceController.text).round(),
+                  'priceSale': int.parse(_calculateDiscountedPrice().round().toString()),
+                  'percentSale': int.parse(_percentSaleController.text).round(),
                   'description': _descriptionController.text,
                   'imageUrl': _imageUrlController.text,
                   'categoryID': _selectedCategoryID,
@@ -293,6 +297,9 @@ class _ProductDetailScreenState extends State<ProductDetailAdminScreen> {
                   final success = await productService
                       .insertOrUpdateProductAsync(product);
                   if (success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Cập nhật sản phẩm thành công!')),
+                    );
                     Navigator.pop(context, 'updated');
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

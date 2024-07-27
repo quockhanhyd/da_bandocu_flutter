@@ -8,6 +8,8 @@ import 'package:shop/models/category_model.dart';
 import 'package:shop/service/admin/category_service.dart';
 import 'package:shop/service/admin/product_service.dart';
 
+import '../../../constants.dart';
+
 HttpClient createHttpClient() {
   final client = HttpClient();
   client.badCertificateCallback =
@@ -90,7 +92,7 @@ class _ManagerAddProductState extends State<ManagerAddProduct> {
 
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://192.168.0.107:7156/api/Upload/upload'),
+        Uri.parse('$apiUrl/Upload/upload'),
       );
 
       request.files
@@ -145,6 +147,9 @@ class _ManagerAddProductState extends State<ManagerAddProduct> {
         await ProductService().insertOrUpdateProductAsync(newProduct);
         if (success) {
           Navigator.pop(context, 'add');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Thêm mới sản phẩm thành công!')),
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Thêm mới sản phẩm thất bại!')),
