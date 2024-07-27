@@ -6,6 +6,7 @@ import 'package:shop/route/screen_export.dart';
 import 'package:shop/screens/admin/views/list_category.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
 import 'package:shop/screens/admin/views/ordermanagerment/order_managerment.dart';
+import 'package:shop/screens/admin/views/profilescreen/profile_screen.dart';
 
 
 class ManagerEntryPoint extends StatefulWidget {
@@ -20,6 +21,7 @@ class _ManagerEntryPointState extends State<ManagerEntryPoint> {
     ManagerProduct(),
     CategoryListScreen(),
     OrderManagementScreen(),
+    ProfileAdminScreen()
   ];
   int _currentIndex = 0;
 
