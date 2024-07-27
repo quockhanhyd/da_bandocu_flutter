@@ -77,4 +77,20 @@ class BaseService {
 
     return response;
   }
+
+  Future<http.Response> getByParam(String endpoint, String param,Object data) async {
+    final response = await client.post(
+      Uri.parse('$apiUrl/$endpoint/$param'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      log('response: $response');
+    }
+
+    return response;
+  }
 }
