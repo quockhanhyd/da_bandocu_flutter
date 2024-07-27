@@ -5,7 +5,7 @@ import 'dart:convert';
 
 Future<ProductModel> fetchAlbum() async {
   final response = await http
-      .get(Uri.parse('https://192.168.0.101:44328/api/Product/GetOne'));
+      .get(Uri.parse('$apiUrl/Product/GetOne'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
