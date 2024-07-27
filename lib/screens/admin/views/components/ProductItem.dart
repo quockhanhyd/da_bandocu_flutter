@@ -13,7 +13,8 @@ final ioClient = IOClient(createHttpClient());
 
 class ProductItem extends StatelessWidget {
   final String productName;
-  final double productPrice;
+  final int productPrice;
+  final int productPriceSale;
   final List<String> productImages; // List of image URLs
   final String productCategory;
   final int percentSale;
@@ -27,6 +28,7 @@ class ProductItem extends StatelessWidget {
     required this.productCategory,
     required this.percentSale,
     required this.description,
+    required this.productPriceSale,
     required this.onTap,
   });
 
@@ -83,7 +85,7 @@ class ProductItem extends StatelessWidget {
                     Text('Giá bán: $productPrice VND'),
                     Text('Giảm giá: $percentSale%'),
                     Text(
-                      'Giá sau khi giảm: ${(_calculateDiscountedPrice()).toStringAsFixed(2)} VND',
+                      'Giá sau khi giảm: $productPriceSale VND',
                     ),
                     SizedBox(height: 4.0),
                     Text('Danh mục: $productCategory'),

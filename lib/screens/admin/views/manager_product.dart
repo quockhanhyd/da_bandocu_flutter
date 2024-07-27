@@ -70,6 +70,7 @@ class _ManagerProductState extends State<ManagerProduct> {
                   productCategory: product.categoryName ?? '',
                   percentSale: product.percentSale ?? 0,
                   description: product.description ?? '',
+                  productPriceSale: product.priceSale ?? 0,
                   onTap: () async {
                     final result = await Navigator.pushNamed(
                       context,
