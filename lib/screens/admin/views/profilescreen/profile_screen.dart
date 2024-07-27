@@ -29,11 +29,6 @@ class _ProfileAdminScreenState extends State<ProfileAdminScreen> {
               'Tên người dùng',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
-              'email@example.com',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
             Spacer(), // Tạo khoảng trống để đẩy nút xuống dưới cùng
             // Nút đăng xuất
             ElevatedButton(
