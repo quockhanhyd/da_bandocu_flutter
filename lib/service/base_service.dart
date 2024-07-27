@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+
+import '../constants.dart';
 class BaseService {
-  final String baseUrl = 'http://192.168.0.101:5000/api/';
   final IOClient client;
 
   BaseService({http.Client? client})
@@ -15,7 +16,7 @@ class BaseService {
 
   Future<http.Response> insertOrUpdateAsync(String endpoint, Object data) async {
     final response = await client.post(
-      Uri.parse('$baseUrl$endpoint/InsertOrUpdate'),
+      Uri.parse('$apiUrl/$endpoint/InsertOrUpdate'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -31,7 +32,7 @@ class BaseService {
 
   Future<http.Response> getListAsync(String endpoint, Object data) async {
     final response = await client.post(
-      Uri.parse('$baseUrl$endpoint/GetList'),
+      Uri.parse('$apiUrl/$endpoint/GetList'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -47,7 +48,7 @@ class BaseService {
 
   Future<http.Response> getListCommonAsync(String endpoint, String router, Object data) async {
     final response = await client.post(
-      Uri.parse('$baseUrl$endpoint$router'),
+      Uri.parse('$apiUrl/$endpoint$router'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -64,7 +65,7 @@ class BaseService {
 
   Future<http.Response> delete(String endpoint, String paramId) async {
     final response = await client.delete(
-      Uri.parse('$baseUrl$endpoint/Delete?$paramId'),
+      Uri.parse('$apiUrl/$endpoint/Delete?$paramId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
