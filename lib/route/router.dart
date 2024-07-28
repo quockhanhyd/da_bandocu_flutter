@@ -7,6 +7,7 @@ import 'package:shop/models/product_model.dart';
 import 'package:shop/screens/admin/views/components/product_form.dart';
 import 'package:shop/screens/admin/views/manager_add_product.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
+import 'package:shop/screens/order/views/orderlist_screen.dart';
 
 import '../screens/admin/views/add_category_form.dart';
 import '../screens/admin/views/category_detail.dart';
@@ -259,6 +260,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) {
           String orderCode = settings.arguments as String;
           return OrdersScreen(orderCode: orderCode);
+        },
+      );
+    case orderListScreen:
+      return MaterialPageRoute(
+        builder: (context) {
+          return OrderListScreen();
         },
       );
     // case orderProcessingScreenRoute:

@@ -21,9 +21,10 @@ class OrderAdminService extends BaseService {
   //   return false;
   // }
 
-  Future<List<Map<String, dynamic>>> getOrdersByMerchanIDAsync(Map<String, dynamic> data) async {
-    final response = await getByParam(
-        urlName, "GetTotalOrderByMerchanID", data);
+  Future<List<Map<String, dynamic>>> getOrdersByMerchanIDAsync(
+      Map<String, dynamic> data) async {
+    final response =
+        await getByParam(urlName, "GetTotalOrderByMerchanID", data);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
@@ -48,15 +49,14 @@ class OrderAdminService extends BaseService {
   Future<List<Map<String, dynamic>>> GetByStatus(int status) async {
     var param = {"status": status}; // Đổi key thành "status" cho phù hợp
 
-    final response = await getByParam(
-        urlName, "GetByStatus", param);
+    final response = await getByParam(urlName, "GetByStatus", param);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
 
       // Kiểm tra dữ liệu và đảm bảo dữ liệu là danh sách
-      if (responseData['data'] is List) {
-        final List<dynamic> dataList = responseData['data'];
+      if (responseData['data']['data'] is List) {
+        final List<dynamic> dataList = responseData['data']['data'];
 
         // Chuyển đổi dữ liệu thành List<Map<String, dynamic>>
         return dataList.map((item) => Map<String, dynamic>.from(item)).toList();
@@ -69,7 +69,6 @@ class OrderAdminService extends BaseService {
     }
   }
 
-
   Future<List<OrderDetail>> getOrderDetails(Object data) async {
     final response = await getListAsync(urlName, data);
 
@@ -78,7 +77,9 @@ class OrderAdminService extends BaseService {
       final List<dynamic> dataList = responseData['data']['data'];
 
       // Chuyển đổi danh sách JSON thành danh sách các đối tượng ProductModel2
-      return dataList.map((item) => OrderDetail.fromJson(item as Map<String, dynamic>)).toList();
+      return dataList
+          .map((item) => OrderDetail.fromJson(item as Map<String, dynamic>))
+          .toList();
     } else {
       log('Error: ${response.statusCode} ${response.reasonPhrase}');
       throw Exception('Failed to load categories');

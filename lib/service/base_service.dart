@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 class BaseService {
-  final String baseUrl = 'http://172.19.200.137:5000/api/';
+  final String baseUrl = 'http://192.168.0.100:5000/api/';
   final IOClient client;
 
   BaseService({http.Client? client})
@@ -100,7 +100,7 @@ class BaseService {
   Future<http.Response> getByParam(
       String endpoint, String param, Object data) async {
     final response = await client.post(
-      Uri.parse('$baseUrl/$endpoint/$param'),
+      Uri.parse('$baseUrl$endpoint/$param'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
