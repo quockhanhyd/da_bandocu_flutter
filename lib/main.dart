@@ -5,14 +5,16 @@ import 'package:shop/route/route_constants.dart';
 import 'package:shop/route/router.dart' as router;
 import 'package:shop/screens/admin/views/manager_product.dart';
 import 'package:shop/theme/app_theme.dart';
-class MyHttpOverrides extends HttpOverrides{
+
+class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-      return super.createHttpClient(context)
-        ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
-
 }
+
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());

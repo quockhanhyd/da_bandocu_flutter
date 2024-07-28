@@ -7,6 +7,7 @@ import 'package:shop/screens/product/views/added_to_cart_message_screen.dart';
 import 'package:shop/screens/product/views/components/product_list_tile.dart';
 import 'package:shop/screens/product/views/location_permission_store_availability_screen.dart';
 import 'package:shop/screens/product/views/size_guide_screen.dart';
+import 'package:shop/service/views/cart_service.dart';
 
 import '../../../constants.dart';
 import 'components/product_quantity.dart';
@@ -16,10 +17,11 @@ import 'components/unit_price.dart';
 
 class ProductBuyNowScreen extends StatefulWidget {
   final Map<Object, dynamic>? productDetail;
-  const ProductBuyNowScreen({super.key, required this.productDetail });
+  const ProductBuyNowScreen({super.key, required this.productDetail});
 
   @override
-  _ProductBuyNowScreenState createState() => _ProductBuyNowScreenState(productDetail);
+  _ProductBuyNowScreenState createState() =>
+      _ProductBuyNowScreenState(productDetail);
 }
 
 class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
@@ -28,12 +30,15 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CartService _cartService = CartService();
     return Scaffold(
       bottomNavigationBar: CartButton(
-        price: productDetail?["priceSale"]??0,
+        price: productDetail?["priceSale"] ?? 0,
         title: "Thêm vào giỏ hàng",
         subTitle: "Tổng tiền",
         press: () {
+          _cartService.addToCart(
+              "{\"cartID\": 0,\"userID\": 1,\"productID\": ${productDetail?["productID"] ?? 0}}");
           customModalBottomSheet(
             context,
             isDismissible: false,
@@ -51,7 +56,7 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
               children: [
                 const BackButton(),
                 Text(
-                  productDetail?["productName"]??"",
+                  productDetail?["productName"] ?? "",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 IconButton(
@@ -70,7 +75,8 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                     padding: EdgeInsets.symmetric(horizontal: defaultPadding),
                     child: AspectRatio(
                       aspectRatio: 1.05,
-                      child: NetworkImageWithLoader((productDetail?["imageUrl"]??"").split(",")[0]),
+                      child: NetworkImageWithLoader(
+                          (productDetail?["imageUrl"] ?? "").split(",")[0]),
                     ),
                   ),
                 ),
@@ -82,8 +88,9 @@ class _ProductBuyNowScreenState extends State<ProductBuyNowScreen> {
                       children: [
                         Expanded(
                           child: UnitPrice(
-                            price: productDetail?["price"]??0,
-                            priceAfterDiscount: productDetail?["priceSale"]??0,
+                            price: productDetail?["price"] ?? 0,
+                            priceAfterDiscount:
+                                productDetail?["priceSale"] ?? 0,
                           ),
                         ),
                         ProductQuantity(

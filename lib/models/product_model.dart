@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<ProductModel> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('$apiUrl/Product/GetOne'));
+  final response = await http.get(Uri.parse('$apiUrl/Product/GetOne'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return ProductModel.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    return ProductModel.fromJson(
+        jsonDecode(response.body) as Map<String, dynamic>);
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -49,6 +49,7 @@ class ProductModel {
     };
   }
 }
+
 List<ProductModel> demoBestSellersProducts = [
   ProductModel(
     image: "https://i.imgur.com/tXyOMMG.png",
@@ -118,20 +119,19 @@ List<ProductModel> kidsProducts = [
   ),
 ];
 
-
 class ProductModel2 {
   final int productID;
-  final String productName;
+  final String? productName;
   final int totalAmount;
   final int totalSold;
   final int vote;
   final int price;
   final int priceSale;
   final int percentSale;
-  final String description;
-  final String imageUrl;
+  final String? description;
+  final String? imageUrl;
   final int categoryID;
-  final String categoryName;
+  final String? categoryName;
   ProductModel2({
     required this.productID,
     required this.productName,
@@ -154,9 +154,12 @@ class ProductModel2 {
       totalAmount: json['totalAmount'],
       totalSold: json['totalSold'],
       vote: json['vote'],
-      price: (json['price'] as num).toInt(), // Chuyển đổi int hoặc double thành double
-      priceSale: (json['priceSale'] as num).toInt(), // Chuyển đổi int hoặc double thành double
-      percentSale: json['percentSale'], // Chuyển đổi int hoặc double thành double
+      price: (json['price'] as num)
+          .toInt(), // Chuyển đổi int hoặc double thành double
+      priceSale: (json['priceSale'] as num)
+          .toInt(), // Chuyển đổi int hoặc double thành double
+      percentSale:
+          json['percentSale'], // Chuyển đổi int hoặc double thành double
       description: json['description'],
       imageUrl: json['imageUrl'],
       categoryID: json['categoryID'],

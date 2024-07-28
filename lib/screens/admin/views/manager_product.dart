@@ -90,4 +90,3 @@ class _ManagerProductState extends State<ManagerProduct> {
     );
   }
 }
-

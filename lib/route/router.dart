@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/entry_point.dart';
 import 'package:shop/manager_entry_point.dart';
+import 'package:shop/models/cart_model.dart';
 import 'package:shop/models/category_model.dart';
 import 'package:shop/models/product_model.dart';
 import 'package:shop/screens/admin/views/components/product_form.dart';
@@ -255,7 +256,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     //   );
     case ordersScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const OrdersScreen(),
+        builder: (context) {
+          String orderCode = settings.arguments as String;
+          return OrdersScreen(orderCode: orderCode);
+        },
       );
     // case orderProcessingScreenRoute:
     //   return MaterialPageRoute(

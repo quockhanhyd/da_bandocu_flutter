@@ -7,7 +7,7 @@ class HomeService extends BaseService {
   HomeService() : super();
   static String urlName = 'Product';
   Future<List<Map<Object, dynamic>>> getListHome(Object data) async {
-    final response = await getListCommonAsync(urlName, "/GetListHome", data);
+    final response = await fetchAsync(urlName, "/GetListHome", data);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
@@ -22,7 +22,7 @@ class HomeService extends BaseService {
   }
 
   Future<Map<Object, dynamic>> getDetail(Object data) async {
-    final response = await getListCommonAsync(urlName, "/GetDetail", data);
+    final response = await fetchAsync(urlName, "/GetDetail", data);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
