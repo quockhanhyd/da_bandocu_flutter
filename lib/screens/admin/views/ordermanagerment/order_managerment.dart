@@ -17,16 +17,25 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
   @override
   void initState() {
     super.initState();
-    _dataOrders = OrderAdminService().getOrdersByMerchanIDAsync(param);
+    _loadOrdersMange();
   }
 
-  void _navigateToOrderList(Map<Object, dynamic> orders) {
-    Navigator.push(
+  void _loadOrdersMange() {
+    setState(() {
+      _dataOrders = OrderAdminService().getOrdersByMerchanIDAsync(param);
+    });
+  }
+
+  void _navigateToOrderList(Map<Object, dynamic> orders) async {
+    final res = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OrderListScreen(ordersName: orders),
       ),
     );
+    if (res) {
+      _loadOrdersMange();
+    }
   }
 
   @override
