@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:http/http.dart';
 import 'package:shop/models/order_model.dart';
 
 import '../../models/category_model.dart';
@@ -69,20 +70,37 @@ class OrderAdminService extends BaseService {
     }
   }
 
-  Future<List<OrderDetail>> getOrderDetails(Object data) async {
-    final response = await getListAsync(urlName, data);
+  Future<Map<Object, dynamic>> getOrderDetails(Object orderId) async {
+    var param = {"orderId": orderId}; // Thay đổi key nếu cần thiết
+
+    final response = await getByParam(urlName, "GetById", param);
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      final List<dynamic> dataList = responseData['data']['data'];
 
-      // Chuyển đổi danh sách JSON thành danh sách các đối tượng ProductModel2
-      return dataList
-          .map((item) => OrderDetail.fromJson(item as Map<String, dynamic>))
-          .toList();
+      // Kiểm tra cấu trúc dữ liệu trả về từ API
+      final order = responseData['data']['order'];
+      final List<dynamic> orderDetail = responseData['data']['orderDetail'];
+
+      // Trả về bản đồ chứa thông tin đơn hàng và danh sách chi tiết đơn hàng
+      return {
+        'order': order,
+        'orderDetail': orderDetail,
+      };
     } else {
       log('Error: ${response.statusCode} ${response.reasonPhrase}');
-      throw Exception('Failed to load categories');
+      throw Exception('Failed to load order details');
     }
+  }
+
+  Future<bool> updateStatusAsync(Object data) async {
+    final response = await getByParam(urlName, "UpdateStatus", data);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      log('error: $response');
+    }
+    return false;
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shop/manager_entry_point.dart';
 import 'package:shop/route/route_constants.dart';
 import 'package:shop/route/router.dart' as router;
 import 'package:shop/screens/admin/views/manager_product.dart';
@@ -37,8 +38,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       onGenerateRoute: router.generateRoute,
       // initialRoute: onbordingScreenRoute,
-      initialRoute: entryPointScreenRoute,
-      // home: const ManagerProduct(),
+      // initialRoute: entryPointScreenRoute,
+      home: const ManagerEntryPoint(),
     );
   }
 }

@@ -17,16 +17,45 @@ class _OrderListScreen extends State<OrderListScreen> {
   @override
   void initState() {
     super.initState();
-    _orders = OrderAdminService().GetByStatus(widget.ordersName['status']);
+    _loadDataOrders();
   }
 
-  void _handleOrderTap(Map<Object, dynamic> order) {
-    Navigator.push(
+  void _loadDataOrders() {
+    setState(() {
+      _orders = OrderAdminService().GetByStatus(widget.ordersName['status']);
+    });
+  }
+
+  void _handleOrderTap(Map<Object, dynamic> order) async {
+    final param = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OrderDetailScreen(order: order),
       ),
     );
+    if (param != null) {
+      // Xử lý kết quả trả về từ OrderDetailScreen
+      param['orderId'] = order['orderID'];
+      UpdateStatusAsync(param);
+    }
+  }
+
+  void UpdateStatusAsync(Object param) async {
+    // Ví dụ: gọi API để cập nhật trạng thái đơn hàng
+    final res = await OrderAdminService().updateStatusAsync(param);
+    if (res) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cập nhật thành công!')),
+      );
+      _loadDataOrders();
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cập nhật thất bại!')),
+      );
+      _loadDataOrders();
+      Navigator.pop(context, false);
+    }
   }
 
   @override
@@ -52,11 +81,11 @@ class _OrderListScreen extends State<OrderListScreen> {
                 final order = orders[index];
 
                 // Điều kiện hiển thị các nút "Hủy" và "Chấp nhận"
-                bool canCancel = order['status'] == 'pending';
-                bool canApprove = order['status'] == 'pending';
+                bool canCancel = order['status'] >= 1 && order['status'] <= 3;
+                bool canApprove = order['status'] >= 1 && order['status'] <= 3;
 
                 return ListTile(
-                  title: Text('Đơn hàng ${order['id']}'),
+                  title: Text('Đơn hàng ${order['orderCode']}'),
                   onTap: () => _handleOrderTap(order),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -65,13 +94,11 @@ class _OrderListScreen extends State<OrderListScreen> {
                         IconButton(
                           icon: Icon(Icons.cancel, color: Colors.red),
                           onPressed: () {
-                            // Xử lý hành động "Hủy" ở đây
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Đơn hàng ${order['id']} đã được hủy'),
-                              ),
-                            );
+                            final pram = {
+                              "orderId": order['orderID'],
+                              "accept": false
+                            };
+                            UpdateStatusAsync(pram);
                           },
                         ),
                       if (canApprove) // Hiển thị nút Chấp nhận nếu có thể
@@ -80,13 +107,11 @@ class _OrderListScreen extends State<OrderListScreen> {
                         IconButton(
                           icon: Icon(Icons.check, color: Colors.green),
                           onPressed: () {
-                            // Xử lý hành động "Chấp nhận" ở đây
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Đơn hàng ${order['id']} đã được chấp nhận'),
-                              ),
-                            );
+                            final pram = {
+                              "orderId": order['orderID'],
+                              "accept": true
+                            };
+                            UpdateStatusAsync(pram);
                           },
                         ),
                     ],

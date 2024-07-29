@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 class BaseService {
-  final String baseUrl = 'http://192.168.0.100:5000/api/';
+  final String baseUrl = 'http://192.168.0.101:5000/api/';
   final IOClient client;
 
   BaseService({http.Client? client})
