@@ -9,7 +9,7 @@ const productDemoImg4 = "https://i.imgur.com/q9oF9Yq.png";
 const productDemoImg5 = "https://i.imgur.com/MsppAcx.png";
 const productDemoImg6 = "https://i.imgur.com/JfyZlnO.png";
 
-const String apiUrl = "http://172.19.200.137:7156/api";
+const String apiUrl = "http://192.168.0.101:5000/api";
 
 // End For demo
 

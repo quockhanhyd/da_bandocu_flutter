@@ -5,6 +5,7 @@ import 'package:shop/manager_entry_point.dart';
 import 'package:shop/route/route_constants.dart';
 import 'package:shop/route/router.dart' as router;
 import 'package:shop/screens/admin/views/manager_product.dart';
+import 'package:shop/screens/auth/views/login_screen.dart';
 import 'package:shop/theme/app_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -16,7 +17,7 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+void main(){
   HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -37,9 +38,9 @@ class MyApp extends StatelessWidget {
       // Dark theme is inclided in the Full template
       themeMode: ThemeMode.light,
       onGenerateRoute: router.generateRoute,
-      // initialRoute: onbordingScreenRoute,
+      initialRoute: onbordingScreenRoute,
       // initialRoute: entryPointScreenRoute,
-      home: const ManagerEntryPoint(),
+      // home: const ManagerEntryPoint(),
     );
   }
 }
