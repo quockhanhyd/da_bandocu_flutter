@@ -71,11 +71,11 @@ class FlashSale extends StatelessWidget {
             future: _flashSaleProducts,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('No home found'));
+                return const Center(child: Text('No home found'));
               } else {
                 final flashSaleProducts = snapshot.data!;
                 flashSaleProducts.sort((a, b) =>

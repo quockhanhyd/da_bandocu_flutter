@@ -88,7 +88,7 @@ class LogInForm extends StatelessWidget {
                 onSaved(email!, password!);
               }
             },
-            child: const Text("Log in"),
+            child: const Text("Đăng nhập"),
           ),
         ],
       ),
