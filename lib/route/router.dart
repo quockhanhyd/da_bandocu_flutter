@@ -143,7 +143,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case productDetailsScreenRoute:
       return MaterialPageRoute(
         builder: (context) {
-          int productId = settings.arguments as int;
+          int productId = 0;
+          try {
+            productId = settings.arguments as int;
+          } catch (e) {}
           return ProductDetailsScreen(productId: productId);
         },
       );

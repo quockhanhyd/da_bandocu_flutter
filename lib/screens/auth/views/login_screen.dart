@@ -30,7 +30,7 @@ class LogInForm extends StatelessWidget {
             onSaved: (value) {
               email = value;
             },
-            validator: emaildValidator.call,
+            // validator: emaildValidator.call,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -58,7 +58,7 @@ class LogInForm extends StatelessWidget {
             onSaved: (value) {
               password = value;
             },
-            validator: passwordValidator.call,
+            // validator: passwordValidator.call,
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Password",
@@ -183,12 +183,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account?"),
+                      const Text("Bạn không có tài khoản?"),
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, signUpScreenRoute);
                         },
-                        child: const Text("Sign up"),
+                        child: const Text("Đăng ký"),
                       )
                     ],
                   ),

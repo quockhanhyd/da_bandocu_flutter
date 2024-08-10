@@ -63,7 +63,8 @@ class PopularProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final param = {"currentPage": 1, "pageSize": 20, "textSearch": ""};
-    late Future<List<Map<Object, dynamic>>> _popularProducts = HomeService().getListHome(param);
+    late Future<List<Map<Object, dynamic>>> _popularProducts =
+        HomeService().getListHome(param);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +73,7 @@ class PopularProducts extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
           child: Text(
-            "Sản phẩm nổi bật",
+            "Sản phẩm mới nhất",
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ),
@@ -81,44 +82,45 @@ class PopularProducts extends StatelessWidget {
         SizedBox(
           height: 220,
           child: FutureBuilder<List<Map<Object, dynamic>>>(
-        future: _popularProducts,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No home found'));
-          } else {
-            final popularProducts = snapshot.data!;
-            return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            // Find demoPopularProducts on models/ProductModel.dart
-            itemCount: popularProducts.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(
-                left: defaultPadding,
-                right: index == popularProducts.length - 1
-                    ? defaultPadding
-                    : 0,
-              ),
-              child: ProductCard(
-                image: popularProducts[index]["image"],
-                brandName: popularProducts[index]["brandName"],
-                title: popularProducts[index]["productName"],
-                price: popularProducts[index]["price"],
-                priceAfetDiscount: popularProducts[index]["priceAfetDiscount"],
-                dicountpercent: popularProducts[index]["dicountpercent"],
-                press: () {
-                  Navigator.pushNamed(context, productDetailsScreenRoute,
-                      arguments: popularProducts[index]["productId"]);
-                },
-              ),
-            ),
-          );
-          }
-        },
-      ),
+            future: _popularProducts,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No home found'));
+              } else {
+                final popularProducts = snapshot.data!;
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  // Find demoPopularProducts on models/ProductModel.dart
+                  itemCount: popularProducts.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      left: defaultPadding,
+                      right: index == popularProducts.length - 1
+                          ? defaultPadding
+                          : 0,
+                    ),
+                    child: ProductCard(
+                      image: popularProducts[index]["image"].split(',')[0],
+                      brandName: popularProducts[index]["brandName"],
+                      title: popularProducts[index]["productName"],
+                      price: popularProducts[index]["price"],
+                      priceAfetDiscount: popularProducts[index]
+                          ["priceAfetDiscount"],
+                      dicountpercent: popularProducts[index]["dicountpercent"],
+                      press: () {
+                        Navigator.pushNamed(context, productDetailsScreenRoute,
+                            arguments: popularProducts[index]["productId"]);
+                      },
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         )
       ],
     );

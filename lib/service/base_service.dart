@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:shop/constants.dart';
 
 class BaseService {
-  final String baseUrl = 'http://192.168.0.101:5000/api/';
+  final String baseUrl = '$apiUrl/';
   final IOClient client;
 
   BaseService({http.Client? client})

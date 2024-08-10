@@ -15,36 +15,37 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            const SliverToBoxAdapter(child: OffersCarouselAndCategories()),
-            const SliverToBoxAdapter(child: PopularProducts()),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
+            SliverToBoxAdapter(child: OffersCarouselAndCategories()),
+            SliverToBoxAdapter(child: PopularProducts()),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: 0),
+              // padding: EdgeInsets.symmetric(vertical: defaultPadding * 1.5),
               sliver: SliverToBoxAdapter(child: FlashSale()),
             ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  // While loading use 👇
-                  // const BannerMSkelton(),‚
-                  BannerSStyle1(
-                    title: "Mới \ncập bến",
-                    subtitle: "Ưu đãi đặc biệt",
-                    discountParcent: 50,
-                    press: () {
-                      Navigator.pushNamed(context, onSaleScreenRoute);
-                    },
-                  ),
-                  const SizedBox(height: defaultPadding / 4),
-                  // We have 4 banner styles, all in the pro version
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(child: BestSellers()),
-            const SliverToBoxAdapter(child: MostPopular()),
+            // SliverToBoxAdapter(
+            //   child: Column(
+            //     children: [
+            //       // While loading use 👇
+            //       // const BannerMSkelton(),‚
+            //       BannerSStyle1(
+            //         title: "Mới \ncập bến",
+            //         subtitle: "Ưu đãi đặc biệt",
+            //         discountParcent: 50,
+            //         press: () {
+            //           Navigator.pushNamed(context, onSaleScreenRoute);
+            //         },
+            //       ),
+            //       const SizedBox(height: defaultPadding / 4),
+            //       // We have 4 banner styles, all in the pro version
+            //     ],
+            //   ),
+            // ),
+            SliverToBoxAdapter(child: BestSellers()),
+            SliverToBoxAdapter(child: MostPopular()),
           ],
         ),
       ),
