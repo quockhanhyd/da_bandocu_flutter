@@ -7,6 +7,7 @@ import 'package:shop/models/product_model.dart';
 import 'package:shop/screens/admin/views/components/product_form.dart';
 import 'package:shop/screens/admin/views/manager_add_product.dart';
 import 'package:shop/screens/admin/views/manager_product.dart';
+import 'package:shop/screens/home/views/product_by_category_screen.dart';
 import 'package:shop/screens/order/views/orderlist_screen.dart';
 
 import '../screens/admin/views/add_category_form.dart';
@@ -148,6 +149,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
             productId = settings.arguments as int;
           } catch (e) {}
           return ProductDetailsScreen(productId: productId);
+        },
+      );
+    case productByCategory:
+      return MaterialPageRoute(
+        builder: (context) {
+          String categoryId = "0";
+          try {
+            categoryId = settings.arguments as String;
+          } catch (e) {}
+          return ProductByCategoryScreen(categoryID: categoryId);
         },
       );
     case productReviewsScreenRoute:

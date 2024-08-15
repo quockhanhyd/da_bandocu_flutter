@@ -9,7 +9,8 @@ import '../../../constants.dart';
 class BannerMStyle4 extends StatelessWidget {
   const BannerMStyle4({
     super.key,
-    this.image = "https://i.imgur.com/R4iKkDD.png",
+    this.image =
+        "https://gcs.tripi.vn/public-tripi/tripi-feed/img/473817GfB/huong-dan-cach-mua-do-dien-tu-o-thai-lan-chat-luong-nhat-gia-tot-nhat-5e821e1c413fb.jpg",
     required this.title,
     required this.press,
     required this.discountParcent,

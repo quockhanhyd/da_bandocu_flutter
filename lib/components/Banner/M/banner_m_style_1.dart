@@ -6,7 +6,8 @@ import '../../../constants.dart';
 class BannerMStyle1 extends StatelessWidget {
   const BannerMStyle1({
     super.key,
-    this.image = "https://i.imgur.com/UP7xhPG.png",
+    this.image =
+        "https://goitho.com.vn/wp-content/uploads/2018/09/luu-y-khi-mua-do-dien-tu-cu-42956.jpg",
     required this.text,
     required this.press,
   });

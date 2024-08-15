@@ -20,6 +20,21 @@ class HomeService extends BaseService {
       throw Exception('Failed to load home');
     }
   }
+  
+  Future<List<Map<Object, dynamic>>> GetListByCategoryID(Object data) async {
+    final response = await fetchAsync(urlName, "/GetListByCategoryID", data);
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      final List<dynamic> dataList = responseData['data']['data'];
+
+      // Chuyển đổi dữ liệu thành List<Map<String, dynamic>>
+      return dataList.map((item) => item as Map<Object, dynamic>).toList();
+    } else {
+      log('Error: ${response.statusCode} ${response.reasonPhrase}');
+      throw Exception('Failed to load home');
+    }
+  }
 
   Future<Map<Object, dynamic>> getDetail(Object data) async {
     final response = await fetchAsync(urlName, "/GetDetail", data);

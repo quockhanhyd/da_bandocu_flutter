@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop/components/product/product_card.dart';
 import 'package:shop/models/product_model.dart';
+import 'package:shop/service/views/home_service.dart';
 
 import '../../../../constants.dart';
 import '../../../../route/route_constants.dart';
@@ -12,6 +13,10 @@ class BestSellers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final param = {"currentPage": 1, "pageSize": 20, "textSearch": ""};
+    late Future<List<Map<Object, dynamic>>> _flashSaleProducts =
+        HomeService().getListHome(param);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,31 +32,48 @@ class BestSellers extends StatelessWidget {
         // const ProductsSkelton(),
         SizedBox(
           height: 220,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            // Find demoBestSellersProducts on models/ProductModel.dart
-            itemCount: demoBestSellersProducts.length,
-            itemBuilder: (context, index) => Padding(
-              padding: EdgeInsets.only(
-                left: defaultPadding,
-                right: index == demoBestSellersProducts.length - 1
-                    ? defaultPadding
-                    : 0,
-              ),
-              child: ProductCard(
-                image: demoBestSellersProducts[index].image,
-                brandName: demoBestSellersProducts[index].brandName,
-                title: demoBestSellersProducts[index].productName,
-                price: demoBestSellersProducts[index].price,
-                priceAfetDiscount:
-                    demoBestSellersProducts[index].priceAfetDiscount,
-                dicountpercent: demoBestSellersProducts[index].dicountpercent,
-                press: () {
-                  Navigator.pushNamed(context, productDetailsScreenRoute,
-                      arguments: index.isEven);
-                },
-              ),
-            ),
+          child: FutureBuilder<List<Map<Object, dynamic>>>(
+            future: _flashSaleProducts,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No home found'));
+              } else {
+                final flashSaleProducts = snapshot.data!;
+                flashSaleProducts.sort((a, b) =>
+                    a["priceAfetDiscount"] < b["priceAfetDiscount"] ? 1 : 0);
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  // Find flashSaleProducts on models/ProductModel.dart
+                  itemCount: flashSaleProducts.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      left: defaultPadding,
+                      right: index == flashSaleProducts.length - 1
+                          ? defaultPadding
+                          : 0,
+                    ),
+                    child: ProductCard(
+                      image: flashSaleProducts[index]["image"].split(',')[0],
+                      brandName: flashSaleProducts[index]["brandName"],
+                      title: flashSaleProducts[index]["productName"],
+                      price: flashSaleProducts[index]["price"],
+                      priceAfetDiscount: flashSaleProducts[index]
+                          ["priceAfetDiscount"],
+                      dicountpercent: flashSaleProducts[index]
+                          ["dicountpercent"],
+                      press: () {
+                        Navigator.pushNamed(context, productDetailsScreenRoute,
+                            arguments: flashSaleProducts[index]["productId"]);
+                      },
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         )
       ],

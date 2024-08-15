@@ -8,7 +8,6 @@ import 'package:shop/screens/admin/views/manager_product.dart';
 import 'package:shop/screens/admin/views/ordermanagerment/order_managerment.dart';
 import 'package:shop/screens/admin/views/profilescreen/profile_screen.dart';
 
-
 class ManagerEntryPoint extends StatefulWidget {
   const ManagerEntryPoint({super.key});
 
@@ -48,12 +47,12 @@ class _ManagerEntryPointState extends State<ManagerEntryPoint> {
         leading: const SizedBox(),
         leadingWidth: 0,
         centerTitle: false,
-        title: SvgPicture.asset(
-          "assets/logo/Shoplon.svg",
-          colorFilter: ColorFilter.mode(
-              Theme.of(context).iconTheme.color!, BlendMode.srcIn),
-          height: 20,
-          width: 100,
+        title: const Text(
+          "Shop 2hand",
+          style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic),
         ),
         actions: [
           IconButton(

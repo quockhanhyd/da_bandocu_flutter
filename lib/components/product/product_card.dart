@@ -34,7 +34,8 @@ class ProductCard extends StatelessWidget {
             aspectRatio: 1.15,
             child: Stack(
               children: [
-                NetworkImageWithLoader(image??"", radius: defaultBorderRadious),
+                NetworkImageWithLoader(image ?? "",
+                    radius: defaultBorderRadious),
                 if (dicountpercent != null)
                   Positioned(
                     right: defaultPadding / 2,
@@ -68,7 +69,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (brandName??"").toUpperCase(),
+                    (brandName ?? "").toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -76,7 +77,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: defaultPadding / 2),
                   Text(
-                    title??"",
+                    title ?? "",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
@@ -89,33 +90,33 @@ class ProductCard extends StatelessWidget {
                       ? Row(
                           children: [
                             Text(
-                              "\$$priceAfetDiscount",
+                              "$priceAfetDiscount VND",
                               style: const TextStyle(
                                 color: Color(0xFF31B0D8),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 12,
+                                fontSize: 10,
                               ),
                             ),
                             const SizedBox(width: defaultPadding / 4),
                             Text(
-                              "\$$price",
+                              "$price VND",
                               style: TextStyle(
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
                                     .color,
-                                fontSize: 10,
+                                fontSize: 8,
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
                           ],
                         )
                       : Text(
-                          "\$$price",
+                          "$price VND",
                           style: const TextStyle(
                             color: Color(0xFF31B0D8),
                             fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                            fontSize: 10,
                           ),
                         ),
                 ],

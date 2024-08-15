@@ -10,7 +10,8 @@ import 'banner_m.dart';
 class BannerMWithCounter extends StatefulWidget {
   const BannerMWithCounter({
     super.key,
-    this.image = "https://i.imgur.com/pRgcbpS.png",
+    this.image =
+        "https://autorobots.vn/wp-content/uploads/2023/03/thiet-bi-dien-tu-la-gi-0.jpg",
     required this.text,
     required this.duration,
     required this.press,
